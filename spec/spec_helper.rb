@@ -35,6 +35,8 @@ RSpec.configure do |config|
   config.filter_run_excluding(broken: true)
 
   config.include(FactoryBot::Syntax::Methods)
+
+  PaperTrail.request.whodunnit = 161018
 end
 
 Shoulda::Matchers.configure do |config|
