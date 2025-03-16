@@ -1,0 +1,7 @@
+# frozen_string_literal: true
+
+{
+  id: user.id,
+  email: user.email,
+  name: user.name,
+}.tap { |hash| hash[:token] = @token if @token.present? }
