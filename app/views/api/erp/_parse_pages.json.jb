@@ -1,0 +1,6 @@
+{
+  data: data,
+  page: data.current_page,
+  pages: data.total_pages,
+  total: data.total_count
+}

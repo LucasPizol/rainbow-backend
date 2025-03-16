@@ -1,0 +1,6 @@
+# frozen_string_literal: true
+
+{
+  id: category.id,
+  name: category.name
+}

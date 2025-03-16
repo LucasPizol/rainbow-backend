@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+{
+  categories: render(partial: "parse_category", collection: @categories, as: :category)
+}

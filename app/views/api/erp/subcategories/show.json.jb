@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+{
+  subcategory: render("parse_subcategory", subcategory: @subcategory)
+}

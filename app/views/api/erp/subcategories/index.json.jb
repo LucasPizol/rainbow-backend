@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+{
+  subcategories: render(partial: "parse_subcategory", collection: @subcategories, as: :subcategory)
+}

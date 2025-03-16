@@ -12,6 +12,7 @@ gem "stimulus-rails"
 gem 'rack-cors'
 gem 'rspec'
 gem 'paper_trail'
+gem 'kaminari'
 
 gem "bcrypt", "~> 3.1.7"
 

@@ -2,7 +2,9 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :erp do
       resources :login, only: [:create]
-      resources :products, only: [:index, :show]
+      resources :categories, only: %i[create show update destroy index]
+      resources :subcategories, only: %i[create show update destroy index]
+      resources :products, only: %i[index]
     end
   end
 

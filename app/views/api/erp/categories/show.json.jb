@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+{
+  category: render("parse_category", category: @category)
+}

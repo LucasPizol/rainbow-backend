@@ -12,13 +12,13 @@ class ApplicationController < ActionController::API
       @decoded = JwtService.decode(header)
 
       if @decoded.blank?
-        return render json: { message: I18n.t('errors/messages.invalid_session') },
+        return render json: { message: 'Você precisa estar autenticado para acessar este recurso' },
                       status: :unauthorized
       end
 
       @current_user = User.find(@decoded[:user_id])
     rescue JWT::DecodeError => e
-      render json: { message: e.message }, status: :unauthorized
+      render json: { message: 'Você precisa estar autenticado para acessar este recurso' }, status: :unauthorized
     end
   end
 
@@ -26,37 +26,8 @@ class ApplicationController < ActionController::API
     PaperTrail.request.whodunnit = @current_user.id if @current_user.present?
   end
 
-  rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
-  rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
-  rescue_from ActiveRecord::RecordNotUnique, with: :render_conflict
-  rescue_from ActiveRecord::RecordNotSaved, with: :render_unprocessable_entity
-  rescue_from ActiveRecord::StatementInvalid, with: :render_unprocessable_entity
-  rescue_from ActionController::ParameterMissing, with: :render_unprocessable_entity
-  rescue_from ActionController::UnpermittedParameters, with: :render_unprocessable_entity
-  rescue_from ActionController::RoutingError, with: :render_not_found
-  rescue_from ActionController::UnknownFormat, with: :render_not_found
-  rescue_from CustomException, with: :render_bad_request
-
-  def render_bad_request(exception)
-    render json: { message: exception.message }, status: :bad_request
-  end
-
-  def render_unprocessable_entity(exception)
-    if [ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved].include?(exception.class)
-      return render json: {
-        message: exception.message,
-        errors: exception.record.errors.messages.presence
-      }, status: :unprocessable_entity
-    end
-
-    render json: { message: exception.message }, status: :unprocessable_entity
-  end
-
-  def render_not_found(exception)
-    render json: { message: exception.message }, status: :not_found
-  end
-
-  def render_conflict(exception)
-    render json: { message: exception.message }, status: :conflict
+  def set_pagination
+    @page = params[:page].to_i.positive? ? params[:page].to_i : 1
+    @per_page = params[:per_page].to_i.positive? ? params[:per_page].to_i : 10
   end
 end

@@ -3,11 +3,19 @@
 require 'spec_helper'
 
 RSpec.describe 'Routes', type: :routing do
-  describe 'authentication' do
-    describe '/api/erp/login' do
-      it 'routes to api/erp/login#create' do
-        expect(post: '/api/erp/login').to route_to('api/erp/login#create', format: :json)
-      end
-    end
+  describe 'login' do
+    it_behaves_like 'routes', route: '/api/erp/login', actions: %i[create]
+  end
+
+  describe 'categories' do
+    it_behaves_like 'routes', route: '/api/erp/categories', actions: %i[create show update destroy index]
+  end
+
+  describe 'subcategories' do
+    it_behaves_like 'routes', route: '/api/erp/subcategories', actions: %i[create show update destroy index]
+  end
+
+  describe 'products' do
+    it_behaves_like 'routes', route: '/api/erp/products', actions: %i[index]
   end
 end
