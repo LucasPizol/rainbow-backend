@@ -3,7 +3,7 @@ class CreateProduct < ActiveRecord::Migration[8.0]
     create_table :products do |t|
       t.string :name, null: false
       t.text :description
-      t.decimal :price, precision: 10, scale: 2
+      t.integer :price, null: false
       t.integer :stock, null: false
       t.string :sku, null: false, index: { unique: true }
       t.string :status, null: false

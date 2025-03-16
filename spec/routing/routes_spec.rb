@@ -16,6 +16,6 @@ RSpec.describe 'Routes', type: :routing do
   end
 
   describe 'products' do
-    it_behaves_like 'routes', route: '/api/erp/products', actions: %i[index]
+    it_behaves_like 'routes', route: '/api/erp/products', actions: %i[index create show update destroy]
   end
 end

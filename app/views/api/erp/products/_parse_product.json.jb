@@ -1,0 +1,20 @@
+# frozen_string_literal: true
+
+category = product.category
+subcategory = product.subcategory
+
+{
+  id: product.id,
+  name: product.name,
+  price: product.price / 100,
+  description: product.description,
+  category: {
+    id: category.id,
+    name: category.name
+  },
+  subcategory: {
+    id: subcategory.id,
+    name: subcategory.name
+  },
+  stock: product.stock
+}

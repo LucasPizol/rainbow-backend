@@ -5,7 +5,7 @@
 #  id             :integer          not null, primary key
 #  name           :string           not null
 #  description    :text
-#  price          :decimal(10, 2)
+#  price          :integer          not null
 #  stock          :integer          not null
 #  sku            :string           not null
 #  status         :string           not null
@@ -34,6 +34,8 @@ RSpec.describe Product, type: :model do
     it { is_expected.to validate_numericality_of(:stock).is_greater_than_or_equal_to(0) }
     it { is_expected.to validate_numericality_of(:price).is_greater_than_or_equal_to(0) }
     it { is_expected.to validate_presence_of(:price) }
+
+    it { is_expected.to have_many_attached(:images) }
 
     it { is_expected.to belong_to(:category) }
     it { is_expected.to belong_to(:subcategory).optional }

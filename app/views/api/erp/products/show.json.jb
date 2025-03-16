@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+{
+  product: render("parse_product", product: @product)
+}

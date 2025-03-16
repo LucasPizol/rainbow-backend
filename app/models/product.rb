@@ -5,7 +5,7 @@
 #  id             :integer          not null, primary key
 #  name           :string           not null
 #  description    :text
-#  price          :decimal(10, 2)
+#  price          :integer          not null
 #  stock          :integer          not null
 #  sku            :string           not null
 #  status         :string           not null
@@ -23,6 +23,8 @@
 
 class Product < ApplicationRecord
   has_paper_trail
+
+  has_many_attached :images
 
   validates :name,
             :category_id,
