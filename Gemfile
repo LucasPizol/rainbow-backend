@@ -27,6 +27,7 @@ gem "bootsnap", require: false
 gem "thruster", require: false
 gem "jb"
 gem "jwt", require: false
+gem "aws-sdk-s3", "1.177.0"
 
 gem "image_processing", "~> 1.2"
 
@@ -56,3 +57,5 @@ group :test do
   gem 'database_cleaner'
   gem 'shoulda-matchers'
 end
+
+gem "devise", "~> 4.9"

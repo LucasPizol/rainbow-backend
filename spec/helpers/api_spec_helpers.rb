@@ -6,9 +6,7 @@ module ApiSpecHelpers
   end
 
   def authenticate_user(user)
-    token = JwtService.encode(user_id: user.id)
-
-    request.headers.merge!({ Authorization: "Bearer #{token}" })
+    sign_in(user)
   end
 end
 

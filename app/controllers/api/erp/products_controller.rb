@@ -5,7 +5,10 @@ class Api::Erp::ProductsController < ApplicationController
   before_action :set_product, only: %i[show destroy update]
 
   def index
-    @categories = Product.page(@page).per(@per_page)
+    @products = Product
+    .includes(:category, :subcategory, :images_attachments)
+    .order(name: :asc)
+    .page(@page).per(@per_page)
   end
 
   def create

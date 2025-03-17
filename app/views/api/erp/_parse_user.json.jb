@@ -4,4 +4,6 @@
   id: user.id,
   email: user.email,
   name: user.name,
-}.tap { |hash| hash[:token] = @token if @token.present? }
+  createdAt: user.created_at,
+  updatedAt: user.updated_at
+}

@@ -17,6 +17,10 @@ module Backend
     config.i18n.available_locales = ['pt-BR', :en]
     config.i18n.fallbacks = [:en]
 
-    config.api_only = true
+    config.session_store :cookie_store, key: 'auth_session', secure: Rails.env.production?
+\
+    I18n.enforce_available_locales = true
+    I18n.config.available_locales = :pt_BR
+    I18n.config.default_locale = :pt_BR
   end
 end

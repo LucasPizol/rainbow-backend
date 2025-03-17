@@ -51,7 +51,7 @@ RSpec.shared_examples 'unauthenticated' do
     it 'does not return data' do
       subject
 
-      expect(json_response).to match({ message: 'Você precisa estar autenticado para acessar este recurso' })
+      expect(json_response).to match({ error: 'Você precisa fazer login ou se cadastrar antes de continuar.' })
     end
   end
 end

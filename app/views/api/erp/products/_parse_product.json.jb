@@ -13,9 +13,17 @@ subcategory = product.subcategory
   category: {
     id: category.id,
     name: category.name
-  },
-  subcategory: {
+  }
+}.tap do |parsed_product|
+  parsed_product[:subcategory] = {
     id: subcategory.id,
     name: subcategory.name
-  }
-}
+  } if subcategory.present?
+
+  parsed_product[:images] = product.images.map do |image|
+    {
+      id: image.id,
+      url: "https://pub-e0f245d9c7584b959e6de3cd442899b1.r2.dev/#{image.key}"
+    }
+  end.compact
+end
