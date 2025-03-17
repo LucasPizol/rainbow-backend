@@ -24,8 +24,10 @@ RSpec.describe Api::Erp::ProductsController, :unit, type: :controller do
           product: {
             id: product.id,
             name: product.name,
-            price: product.price / 100.0,
+            price: product.price.to_s,
             description: product.description,
+            minimumStock: product.minimum_stock,
+            stock: product.stock,
             category: {
               id: product.category.id,
               name: product.category.name
@@ -34,7 +36,6 @@ RSpec.describe Api::Erp::ProductsController, :unit, type: :controller do
               id: product.subcategory.id,
               name: product.subcategory.name
             },
-            stock: product.stock
           }
         }
       end

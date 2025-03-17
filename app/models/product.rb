@@ -5,12 +5,13 @@
 #  id             :integer          not null, primary key
 #  name           :string           not null
 #  description    :text
-#  price          :integer          not null
+#  price          :decimal(10, 2)   not null
 #  stock          :integer          not null
 #  sku            :string           not null
 #  status         :string           not null
 #  category_id    :integer          not null
 #  subcategory_id :integer
+#  minimum_stock  :integer
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #
@@ -39,7 +40,6 @@ class Product < ApplicationRecord
   belongs_to :subcategory, optional: true
 
   before_save :generate_sku, if: -> { name_changed? }
-  before_save :format_price, if: -> { price_changed? }
 
   private
 
@@ -52,9 +52,5 @@ class Product < ApplicationRecord
 
   def sku_formatter(content)
     content.upcase.split(" ").map { |word| word[0, 3] }.join("-")
-  end
-
-  def format_price
-    self.price = self.price * 100
   end
 end

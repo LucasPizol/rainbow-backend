@@ -6,8 +6,10 @@ subcategory = product.subcategory
 {
   id: product.id,
   name: product.name,
-  price: product.price / 100,
+  price: product.price,
   description: product.description,
+  minimumStock: product.minimum_stock,
+  stock: product.stock,
   category: {
     id: category.id,
     name: category.name
@@ -15,6 +17,5 @@ subcategory = product.subcategory
   subcategory: {
     id: subcategory.id,
     name: subcategory.name
-  },
-  stock: product.stock
+  }
 }

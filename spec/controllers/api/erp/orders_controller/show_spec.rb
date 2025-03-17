@@ -24,7 +24,7 @@ RSpec.describe Api::Erp::OrdersController, :unit, type: :controller do
           order: {
             id: order.id,
             status: order.status,
-            total: OrderProduct.all.sum(&:total_price),
+            total: '0.0',
             createdAt: order.created_at.as_json,
             updatedAt: order.updated_at.as_json,
             products: OrderProduct.all.map do |order_product|

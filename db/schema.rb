@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_17_000146) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_17_025708) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -59,7 +59,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_17_000146) do
     t.integer "order_id", null: false
     t.integer "product_id", null: false
     t.integer "quantity", null: false
-    t.integer "price", null: false
+    t.decimal "price", precision: 10, scale: 2, null: false
     t.integer "discount", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -69,7 +69,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_17_000146) do
 
   create_table "orders", force: :cascade do |t|
     t.integer "customer_id", null: false
-    t.integer "total", null: false
+    t.decimal "total", precision: 10, scale: 2, null: false
     t.integer "status", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -79,17 +79,29 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_17_000146) do
   create_table "products", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
-    t.integer "price", null: false
+    t.decimal "price", precision: 10, scale: 2, null: false
     t.integer "stock", null: false
     t.string "sku", null: false
     t.string "status", null: false
     t.integer "category_id", null: false
     t.integer "subcategory_id"
+    t.integer "minimum_stock"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_products_on_category_id"
     t.index ["sku"], name: "index_products_on_sku", unique: true
     t.index ["subcategory_id"], name: "index_products_on_subcategory_id"
+  end
+
+  create_table "stock_histories", force: :cascade do |t|
+    t.integer "product_id", null: false
+    t.integer "quantity", null: false
+    t.decimal "price", precision: 10, scale: 2, null: false
+    t.integer "operation", null: false
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_stock_histories_on_product_id"
   end
 
   create_table "subcategories", force: :cascade do |t|
@@ -124,4 +136,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_17_000146) do
   add_foreign_key "orders", "customers"
   add_foreign_key "products", "categories"
   add_foreign_key "products", "subcategories"
+  add_foreign_key "stock_histories", "products"
 end

@@ -1,0 +1,15 @@
+# frozen_string_literal: true
+
+product = stock_history.product
+
+{
+  id: stock_history.id,
+  quantity: stock_history.quantity,
+  price: stock_history.price,
+  operation: stock_history.operation,
+  createdAt: stock_history.created_at,
+  product: {
+    id: product.id,
+    name: product.name
+  }
+}

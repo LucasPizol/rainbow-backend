@@ -20,5 +20,6 @@ RSpec.describe Customer, type: :model do
 
     it { is_expected.to have_many(:orders) }
     it { is_expected.to have_many(:products).through(:orders) }
+    it { is_expected.to have_many(:order_products).through(:orders) }
   end
 end

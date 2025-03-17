@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+{
+  stockHistory: render("parse_stock_history", stock_history: @stock_history)
+}

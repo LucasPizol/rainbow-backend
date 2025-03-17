@@ -5,12 +5,13 @@
 #  id             :integer          not null, primary key
 #  name           :string           not null
 #  description    :text
-#  price          :integer          not null
+#  price          :decimal(10, 2)   not null
 #  stock          :integer          not null
 #  sku            :string           not null
 #  status         :string           not null
 #  category_id    :integer          not null
 #  subcategory_id :integer
+#  minimum_stock  :integer
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #

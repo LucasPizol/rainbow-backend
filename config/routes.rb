@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resources :orders, only: %i[index create show destroy update]
       resources :order_products, only: %i[create destroy update]
       resources :customers, only: %i[index create show destroy update]
+      resources :stock_histories, only: %i[index create destroy]
     end
   end
 

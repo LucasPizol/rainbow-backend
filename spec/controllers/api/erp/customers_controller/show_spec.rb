@@ -41,7 +41,7 @@ RSpec.describe Api::Erp::CustomersController, :unit, type: :controller do
                 name: order_product.product.name,
                 productId: order_product.product_id,
                 orderId: order_product.order_id,
-                price: order_product.price,
+                price: order_product.price.to_s,
                 quantity: order_product.quantity,
                 discount: order_product.discount
               }
@@ -50,7 +50,7 @@ RSpec.describe Api::Erp::CustomersController, :unit, type: :controller do
               {
                 id: order.id,
                 status: order.status,
-                total: order.total,
+                total: order.total.to_s,
                 createdAt: order.created_at.as_json,
                 updatedAt: order.updated_at.as_json
               }

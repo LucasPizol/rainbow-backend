@@ -4,7 +4,7 @@
 #
 #  id          :integer          not null, primary key
 #  customer_id :integer          not null
-#  total       :integer          not null
+#  total       :decimal(10, 2)   not null
 #  status      :integer          not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null

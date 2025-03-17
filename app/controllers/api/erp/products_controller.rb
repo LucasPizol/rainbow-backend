@@ -51,7 +51,7 @@ class Api::Erp::ProductsController < ApplicationController
   end
 
   def product_params
-    params.require(:product).permit(:name, :description, :price, :category_id, :subcategory_id, :stock, images: [])
+    params.require(:product).permit(:name, :description, :price, :category_id, :subcategory_id, :stock, :minimum_stock, images: [])
   end
 
   def category_params

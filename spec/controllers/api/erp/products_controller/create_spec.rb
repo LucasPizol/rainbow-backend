@@ -27,7 +27,8 @@ RSpec.describe Api::Erp::ProductsController, :unit, type: :controller do
             description: Faker::Lorem.paragraph,
             category_id: category.id,
             subcategory_id: subcategory.id,
-            stock: 0
+            stock: 0,
+            minimum_stock: 1
           }
         }
       end
@@ -39,8 +40,10 @@ RSpec.describe Api::Erp::ProductsController, :unit, type: :controller do
           product: {
             id: product.id,
             name: product.name,
-            price: 100,
+            price: '100.0',
             description: product.description,
+            minimumStock: 1,
+            stock: 0,
             category: {
               id: category.id,
               name: category.name
@@ -48,8 +51,7 @@ RSpec.describe Api::Erp::ProductsController, :unit, type: :controller do
             subcategory: {
               id: subcategory.id,
               name: subcategory.name
-            },
-            stock: 0
+            }
           }
         }
       end
@@ -76,7 +78,8 @@ RSpec.describe Api::Erp::ProductsController, :unit, type: :controller do
             price: 100,
             description: Faker::Lorem.paragraph,
             subcategory_id: subcategory.id,
-            stock: 0
+            stock: 0,
+            minimum_stock: 1
           },
           category: {
             name: Faker::Name.name
@@ -92,8 +95,10 @@ RSpec.describe Api::Erp::ProductsController, :unit, type: :controller do
           product: {
             id: product.id,
             name: product.name,
-            price: 100,
+            price: '100.0',
             description: product.description,
+            minimumStock: 1,
+            stock: 0,
             category: {
               id: category.id,
               name: category.name
@@ -102,7 +107,6 @@ RSpec.describe Api::Erp::ProductsController, :unit, type: :controller do
               id: subcategory.id,
               name: subcategory.name
             },
-            stock: 0
           }
         }
       end
@@ -127,10 +131,11 @@ RSpec.describe Api::Erp::ProductsController, :unit, type: :controller do
         {
           product: {
             name: Faker::Name.name,
-            price: 100,
+            price: 100.0,
             description: Faker::Lorem.paragraph,
             category_id: category.id,
-            stock: 0
+            stock: 0,
+            minimum_stock: 1
           },
           subcategory: {
             name: Faker::Name.name
@@ -146,8 +151,10 @@ RSpec.describe Api::Erp::ProductsController, :unit, type: :controller do
           product: {
             id: product.id,
             name: product.name,
-            price: 100,
+            price: '100.0',
             description: product.description,
+            minimumStock: 1,
+            stock: 0,
             category: {
               id: category.id,
               name: category.name
@@ -155,8 +162,7 @@ RSpec.describe Api::Erp::ProductsController, :unit, type: :controller do
             subcategory: {
               id: subcategory.id,
               name: subcategory.name
-            },
-            stock: 0
+            }
           }
         }
       end
