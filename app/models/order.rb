@@ -21,6 +21,7 @@ class Order < ApplicationRecord
   validates :customer_id, presence: true
 
   before_save :set_total_price
+  after_save :remove_from_stock, if: -> { completed? }
 
   belongs_to :customer
 
@@ -35,5 +36,19 @@ class Order < ApplicationRecord
 
   def set_total_price
     self.total = order_products.sum(&:total_price)
+  end
+
+  VALID_STATUSES.each do |status|
+    define_method "#{status}?" do
+      self.status == status
+    end
+  end
+
+  def remove_from_stock
+    order_products.each do |order_product|
+      product = order_product.product
+      product.stock -= order_product.quantity
+      product.save!
+    end
   end
 end
