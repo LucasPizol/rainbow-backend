@@ -25,18 +25,8 @@ RSpec.describe Api::Erp::OrdersController, :unit, type: :controller do
             id: order.id,
             status: 'canceled',
             total: OrderProduct.all.sum(&:total_price),
-            created_at: order.created_at.as_json,
-            updated_at: order.updated_at.as_json,
-            products: OrderProduct.all.map do |order_product|
-              {
-                id: order_product.id,
-                product_id: order_product.product_id,
-                name: order_product.product.name,
-                quantity: order_product.quantity,
-                price: order_product.price,
-                discount: order_product.discount
-              }
-            end,
+            createdAt: order.created_at.as_json,
+            updatedAt: order.updated_at.as_json,
             customer: {
               id: order.customer.id,
               name: order.customer.name,
@@ -66,7 +56,7 @@ RSpec.describe Api::Erp::OrdersController, :unit, type: :controller do
       it 'returns an error message' do
         send_request
 
-        expect(JSON.parse(response.body)).to eq({ "message" => "Pedido não encontrado" })
+        expect(json_response).to eq({ message: "Pedido não encontrado" })
       end
     end
   end

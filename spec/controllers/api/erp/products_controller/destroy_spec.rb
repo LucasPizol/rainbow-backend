@@ -31,7 +31,7 @@ RSpec.describe Api::Erp::ProductsController, :unit, type: :controller do
       it 'returns an error message' do
         send_request
 
-        expect(JSON.parse(response.body)).to eq({ "message" => "Produto não encontrado" })
+        expect(json_response).to eq({ message: "Produto não encontrado" })
       end
     end
   end

@@ -1,0 +1,11 @@
+# frozen_string_literal: true
+
+{
+  id: order_product.id,
+  name: order_product.product.name,
+  productId: order_product.product_id,
+  orderId: order_product.order_id,
+  price: order_product.price,
+  quantity: order_product.quantity,
+  discount: order_product.discount
+}

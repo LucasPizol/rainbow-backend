@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+{
+  customer: render("parse_customer", customer: @customer)
+}

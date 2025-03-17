@@ -1,0 +1,3 @@
+# frozen_string_literal: true
+
+render('api/erp/parse_pages', data: @orders, content: render(partial: 'parse_order', collection: @orders, as: :order))

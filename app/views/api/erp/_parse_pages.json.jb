@@ -1,5 +1,9 @@
+# frozen_string_literal: true
+
+data = content if data.nil?
+
 {
-  data: data,
+  data: content,
   page: data.current_page,
   pages: data.total_pages,
   total: data.total_count

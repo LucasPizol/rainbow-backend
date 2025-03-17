@@ -22,4 +22,8 @@ RSpec.describe 'Routes', type: :routing do
   describe 'orders' do
     it_behaves_like 'routes', route: '/api/erp/orders', actions: %i[index create show update destroy]
   end
+
+  describe 'customers' do
+    it_behaves_like 'routes', route: '/api/erp/customers', actions: %i[index create show update destroy]
+  end
 end

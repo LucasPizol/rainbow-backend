@@ -1,0 +1,16 @@
+# frozen_string_literal: true
+
+{
+  customer: render("parse_customer", customer: @customer).merge(
+    products: @customer.order_products.map { |order_product| render("api/erp/order_products/parse_order_product", order_product: order_product) },
+    orders: @customer.orders.map do |order|
+      {
+        id: order.id,
+        status: order.status,
+        total: order.total,
+        createdAt: order.created_at,
+        updatedAt: order.updated_at,
+      }
+    end
+  )
+}

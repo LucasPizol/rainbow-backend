@@ -35,9 +35,8 @@ RSpec.describe Api::Erp::OrdersController, type: :controller do
             id: order.id,
             status: 'pending',
             total: 0,
-            created_at: order.created_at.as_json,
-            updated_at: order.updated_at.as_json,
-            products: [],
+            createdAt: order.created_at.as_json,
+            updatedAt: order.updated_at.as_json,
             customer: {
               id: customer.id,
               name: customer.name,
@@ -99,18 +98,8 @@ RSpec.describe Api::Erp::OrdersController, type: :controller do
             id: order.id,
             status: 'pending',
             total: OrderProduct.all.sum(&:total_price),
-            created_at: order.created_at.as_json,
-            updated_at: order.updated_at.as_json,
-            products: OrderProduct.all.map do |order_product|
-              {
-                id: order_product.id,
-                product_id: order_product.product_id,
-                name: order_product.product.name,
-                quantity: order_product.quantity,
-                price: order_product.price,
-                discount: order_product.discount
-              }
-            end,
+            createdAt: order.created_at.as_json,
+            updatedAt: order.updated_at.as_json,
             customer: {
               id: customer.id,
               name: customer.name,

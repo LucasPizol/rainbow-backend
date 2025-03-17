@@ -6,24 +6,12 @@ customer = order.customer
   id: order.id,
   status: order.status,
   total: order.total,
-  created_at: order.created_at,
-  updated_at: order.updated_at,
+  createdAt: order.created_at,
+  updatedAt: order.updated_at,
   customer: {
     id: customer.id,
     name: customer.name,
     email: customer.email,
     phone: customer.phone
-  },
-  products: order.order_products.includes(:product).map do |order_product|
-    product = order_product.product
-
-    {
-      id: product.id,
-      name: product.name,
-      product_id: order_product.product_id,
-      price: order_product.price,
-      quantity: order_product.quantity,
-      discount: order_product.discount
-    }
-  end
+  }
 }

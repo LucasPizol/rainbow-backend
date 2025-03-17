@@ -1,0 +1,20 @@
+{
+  "1": {
+    "id": 1,
+    "name": "Carla Silveira Neto",
+    "email": "bryon@stracke.test",
+    "phone": "(49) 3493-1351",
+    "address": "Casa 5 s/n Rua Gabrielly, Domingos Martins, PR 06971-325",
+    "createdAt": "2025-03-16T23:07:29.274-03:00",
+    "updatedAt": "2025-03-16T23:07:29.274-03:00"
+  },
+  "2": {
+    "id": 1,
+    "name": "Carla Silveira Neto",
+    "email": "bryon@stracke.test",
+    "phone": "(49) 3493-1351",
+    "address": "Casa 5 s/n Rua Gabrielly, Domingos Martins, PR 06971-325",
+    "createdAt": "2025-03-16T23:07:29.274-03:00",
+    "updatedAt": "2025-03-16T23:07:29.274-03:00"
+  }
+}

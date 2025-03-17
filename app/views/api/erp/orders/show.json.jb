@@ -1,3 +1,16 @@
+# frozen_string_literal: true
+
 {
-  order: render("parse_order", order: @order)
+  order: render("parse_order", order: @order).merge(
+    products: @order.order_products.includes(:product).map do |order_product|
+      {
+        id: order_product.id,
+        name: order_product.product.name,
+        productId: order_product.product_id,
+        price: order_product.price,
+        quantity: order_product.quantity,
+        discount: order_product.discount
+      }
+    end
+  )
 }
