@@ -27,6 +27,7 @@ Rails.application.configure do
 
   # Change to :null_store to avoid any caching.
   config.cache_store = :memory_store
+  config.factory_bot.definition_file_paths = ["spec/factories"]
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :cloudflare

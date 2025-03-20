@@ -7,7 +7,6 @@ Bundler.require(*Rails.groups)
 module Backend
   class Application < Rails::Application
     config.load_defaults 8.0
-    config.factory_bot.definition_file_paths = ["spec/factories"]
 
     config.autoload_lib(ignore: %w[assets tasks])
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
@@ -18,7 +17,7 @@ module Backend
     config.i18n.fallbacks = [:en]
 
     config.session_store :cookie_store, key: 'auth_session', secure: Rails.env.production?
-\
+
     I18n.enforce_available_locales = true
     I18n.config.available_locales = :pt_BR
     I18n.config.default_locale = :pt_BR
