@@ -5,7 +5,10 @@ class Api::Erp::OrdersController < ApplicationController
   before_action :set_pagination, only: %i[index]
 
   def index
-    @orders = Order.page(@page).per(@per_page)
+    @orders = Order.ransack(filter_params)
+                   .result
+                   .includes(:customer, order_products: { product: :images_attachments })
+                   .page(@page).per(@per_page)
   end
 
   def show; end
@@ -41,5 +44,12 @@ class Api::Erp::OrdersController < ApplicationController
 
   def order_params
     params.require(:order).permit(:status, :customer_id, order_products_attributes: %i[product_id quantity price])
+  end
+
+  def filter_params
+    params.fetch(:search, {}).permit(
+    :customer_name_or_customer_phone_or_customer_email_cont,
+    :s,
+    status_in: [])
   end
 end

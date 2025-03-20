@@ -10,14 +10,35 @@ Rails.application.routes.draw do
     logout: 'api/erp/users/logout'
   }
 
-  namespace :api, defaults: { format: :json } do
+  namespace :api, defaults: { format: :json }, constraints: { id: /\d+/ } do
     namespace :erp do
       resources :categories, only: %i[create show update destroy index]
       resources :subcategories, only: %i[create show update destroy index]
-      resources :products, only: %i[index create show destroy update]
-      resources :orders, only: %i[index create show destroy update]
+      resources :products, only: %i[index create show destroy update] do
+        collection do
+          resources :names, only: :index, module: :products
+        end
+      end
+
+      resources :orders, only: %i[index create show destroy update] do
+        collection do
+          resources :status, only: :index, module: :orders
+        end
+      end
       resources :order_products, only: %i[create destroy update]
-      resources :customers, only: %i[index create show destroy update]
+
+      namespace :reports do
+        resources :average_ticket, only: :index
+        resources :in_out, only: :index
+        resources :summary, only: :index
+      end
+
+      resources :customers, only: %i[index create show destroy update] do
+        collection do
+          resources :names, only: :index, module: :customers
+        end
+      end
+
       resources :stock_histories, only: %i[index create destroy]
       resources :me, only: :index
     end

@@ -13,7 +13,7 @@ class Api::Erp::OrderProductsController < ApplicationController
   end
 
   def update
-    @order_product.update!(order_products_params.except(:order_id, :product_id))
+    @order_product.update!(order_products_params.except(:order_id))
 
     render :show, status: :ok
   rescue ActiveRecord::RecordInvalid => e
@@ -35,6 +35,6 @@ class Api::Erp::OrderProductsController < ApplicationController
   end
 
   def order_products_params
-    params.require(:order_product).permit(:product_id, :order_id, :price, :quantity)
+    params.require(:order_product).permit(:product_id, :order_id, :price, :quantity, :discount)
   end
 end

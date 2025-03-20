@@ -1,0 +1,15 @@
+pt-BR:
+  activerecord:
+    models:
+      order: Pedido
+    attributes:
+      order:
+        id: ID
+        total: Total
+        created_at: Criado em
+        updated_at: Atualizado em
+        statuses:
+          pending: Pendente
+          processing: Processando
+          completed: Concluído
+          canceled: Cancelado

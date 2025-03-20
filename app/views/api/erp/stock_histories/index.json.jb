@@ -1,3 +1,3 @@
 # frozen_string_literal: true
 
-render('api/erp/parse_pages', content: @stock_histories)
+render('api/erp/parse_pages', data: @stock_histories, content: render(partial: "parse_stock_history", collection: @stock_histories, as: :stock_history))

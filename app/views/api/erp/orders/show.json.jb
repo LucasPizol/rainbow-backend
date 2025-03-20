@@ -5,12 +5,25 @@
     products: @order.order_products.includes(:product).map do |order_product|
       {
         id: order_product.id,
-        name: order_product.product.name,
-        productId: order_product.product_id,
         price: order_product.price,
         quantity: order_product.quantity,
         discount: order_product.discount
-      }
+      }.tap do |parsed_order_product|
+        product = order_product.product
+        first_image = product&.images&.first
+
+        parsed_order_product[:product] = {
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          costPrice: product.cost_price
+        } if product.present?
+
+        # parsed_order_product[:product][:firstImage] = {
+        #   id: product.images.first.id,
+        #   url: "https://pub-e0f245d9c7584b959e6de3cd442899b1.r2.dev/#{product.images.first.key}"
+        # } if first_image.present?
+      end
     end
   )
 }

@@ -5,11 +5,11 @@ class Api::Erp::StockHistoriesController < ApplicationController
   before_action :set_pagination, only: :index
 
   def index
-    @stock_histories = StockHistory.page(@page).per(@per_page)
+    @stock_histories = StockHistory.page(@page).per(@per_page).order(created_at: :desc)
   end
 
   def create
-    @stock_history = StockHistory.new(stock_history_params)
+    @stock_history = StockHistory.new(stock_history_params.merge(operation: StockHistory.operations[:entry]))
 
     @stock_history.save!
 
@@ -33,6 +33,6 @@ class Api::Erp::StockHistoriesController < ApplicationController
   end
 
   def stock_history_params
-    params.require(:stock_history).permit(:product_id, :quantity, :price, :operation, :description)
+    params.require(:stock_history).permit(:product_id, :quantity, :price, :description)
   end
 end

@@ -20,4 +20,8 @@ class Customer < ApplicationRecord
 
   validates :name, presence: true
   validates :phone, presence: true
+
+  def self.ransackable_associations(auth_object = nil)
+    ["order_products", "orders", "products"]
+  end
 end

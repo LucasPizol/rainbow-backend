@@ -1,0 +1,9 @@
+{
+  status: @orders.map do |order|
+    {
+      value: order.status_before_type_cast,
+      count: order[:count],
+      translate: I18n.t("activerecord.attributes.order.statuses.#{order.status}")
+    }
+  end
+}

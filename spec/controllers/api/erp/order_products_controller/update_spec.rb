@@ -23,7 +23,7 @@ RSpec.describe Api::Erp::OrderProductsController, :unit, type: :controller do
         {
           orderProduct: {
             id: order_product.id,
-            name: order_product.product.name,
+            name: order_product.product&.name,
             productId: order_product.product_id,
             orderId: order_product.order_id,
             price: order_product.price.to_s,

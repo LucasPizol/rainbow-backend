@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+{
+  averageTicket: @average_ticket_by_product
+}

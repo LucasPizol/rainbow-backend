@@ -15,6 +15,16 @@ amazon:
   bucket: abacosoftware
   public: true
 
+magalu:
+  service: S3
+  access_key_id: <%= ENV["ACCESS_KEY_ID"] %>
+  secret_access_key: <%= ENV["SECRET_ACCESS_KEY"] %>
+  region: br-se1
+  bucket: s3-invista-bucket
+  endpoint: "https://br-se1.magaluobjects.com"
+  public: true
+  force_path_style: true
+
 cloudflare:
   service: S3
   access_key_id: ed78d3aed351af35413b3c908957f246

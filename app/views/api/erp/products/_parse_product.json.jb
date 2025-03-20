@@ -1,25 +1,26 @@
 # frozen_string_literal: true
 
 category = product.category
-subcategory = product.subcategory
 
 {
   id: product.id,
   name: product.name,
   price: product.price,
+  costPrice: product.cost_price,
   description: product.description,
   minimumStock: product.minimum_stock,
   stock: product.stock,
   category: {
     id: category.id,
     name: category.name
-  }
+  },
+  subcategories: product.subcategories.map do |subcategory|
+    {
+      id: subcategory.id,
+      name: subcategory.name
+    }
+  end
 }.tap do |parsed_product|
-  parsed_product[:subcategory] = {
-    id: subcategory.id,
-    name: subcategory.name
-  } if subcategory.present?
-
   parsed_product[:images] = product.images.map do |image|
     {
       id: image.id,

@@ -49,4 +49,8 @@ class StockHistory < ApplicationRecord
 
     product.save!
   end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["product", "versions"]
+  end
 end

@@ -3,7 +3,7 @@
 # Table name: orders
 #
 #  id          :integer          not null, primary key
-#  customer_id :integer          not null
+#  customer_id :integer
 #  total       :decimal(10, 2)   not null
 #  status      :integer          not null
 #  created_at  :datetime         not null

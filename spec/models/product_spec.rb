@@ -2,24 +2,23 @@
 #
 # Table name: products
 #
-#  id             :integer          not null, primary key
-#  name           :string           not null
-#  description    :text
-#  price          :decimal(10, 2)   not null
-#  stock          :integer          not null
-#  sku            :string           not null
-#  status         :string           not null
-#  category_id    :integer          not null
-#  subcategory_id :integer
-#  minimum_stock  :integer
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
+#  id            :integer          not null, primary key
+#  name          :string           not null
+#  description   :text
+#  price         :decimal(10, 2)   not null
+#  stock         :integer          not null
+#  sku           :string           not null
+#  status        :string           not null
+#  category_id   :integer          not null
+#  minimum_stock :integer
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  cost_price    :decimal(10, 2)
 #
 # Indexes
 #
-#  index_products_on_category_id     (category_id)
-#  index_products_on_sku             (sku) UNIQUE
-#  index_products_on_subcategory_id  (subcategory_id)
+#  index_products_on_category_id  (category_id)
+#  index_products_on_sku          (sku) UNIQUE
 #
 
 # frozen_string_literal: true

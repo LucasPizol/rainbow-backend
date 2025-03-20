@@ -6,22 +6,23 @@ class Api::Erp::ProductsController < ApplicationController
 
   def index
     @products = Product
-    .includes(:category, :subcategory, :images_attachments)
+    .ransack(search_params)
+    .result
+    .includes(:category, :subcategories, :images_attachments)
     .order(name: :asc)
     .page(@page).per(@per_page)
   end
 
   def create
-    @product = Product.new(product_params.merge(status: "active"))
-
     ActiveRecord::Base.transaction do
-      @category = Category.create!(category_params) if category_params.present?
-      @subcategory = Subcategory.create!(subcategory_params) if subcategory_params.present?
+      @product = Product.create!(product_params.merge(status: "active").except(:subcategories, :images))
+      @product.subcategories = Subcategory.where(id: product_params[:subcategories])
 
-      @product.category = @category if @category.present?
-      @product.subcategory = @subcategory if @subcategory.present?
-
-      @product.save!
+      product_params[:images].each do |image|
+        path = TemporaryFileSaver.new(file: image).save
+        @product.images.attach(io: File.open(path), filename: File.basename(path))
+        File.delete(path)
+      end
     end
 
     render :show, status: :created
@@ -35,10 +36,24 @@ class Api::Erp::ProductsController < ApplicationController
     @product.destroy!
   rescue ActiveRecord::RecordNotDestroyed => e
     render json: { message: e.record.errors.full_messages.to_sentence }, status: :unprocessable_entity
+  rescue ActiveRecord::InvalidForeignKey => e
+    render json: { message: "Produto não pode ser excluído, pois está associado a um pedido" }, status: :unprocessable_entity
   end
 
   def update
-    @product.update!(product_params)
+    @product.update!(update_params.except(:subcategories, :images, :images_to_remove))
+
+    ActiveRecord::Base.transaction do
+      @product.subcategories = Subcategory.where(id: update_params[:subcategories]) if update_params[:subcategories].present?
+
+      update_params[:images].each do |image|
+        path = TemporaryFileSaver.new(file: image).save
+        @product.images.attach(io: File.open(path), filename: File.basename(path))
+        File.delete(path)
+      end if update_params[:images].present?
+
+      @product.images.where(id: update_params[:images_to_remove]).each(&:purge) if update_params[:images_to_remove].present?
+    end
 
     render :show, status: :ok
   rescue ActiveRecord::RecordInvalid => e
@@ -54,7 +69,21 @@ class Api::Erp::ProductsController < ApplicationController
   end
 
   def product_params
-    params.require(:product).permit(:name, :description, :price, :category_id, :subcategory_id, :stock, :minimum_stock, images: [])
+    params.require(:product).permit(:name, :description, :price, :category_id, :stock, :minimum_stock, :cost_price, images: [], subcategories: [])
+  end
+
+  def update_params
+    params.require(:product).permit(
+      :name,
+      :description,
+      :price,
+      :category_id,
+      :stock,
+      :minimum_stock,
+      :cost_price,
+      images: [],
+      subcategories: [],
+      images_to_remove: [])
   end
 
   def category_params
@@ -63,5 +92,9 @@ class Api::Erp::ProductsController < ApplicationController
 
   def subcategory_params
     params.fetch(:subcategory, {}).permit(:name)
+  end
+
+  def search_params
+    params.fetch(:search, {}).permit(:name_or_category_name_or_subcategories_name_cont, :s)
   end
 end

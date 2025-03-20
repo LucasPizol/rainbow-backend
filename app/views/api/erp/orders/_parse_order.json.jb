@@ -1,17 +1,18 @@
 # frozen_string_literal: true
 
-customer = order.customer
-
 {
   id: order.id,
   status: order.status,
   total: order.total,
   createdAt: order.created_at,
   updatedAt: order.updated_at,
-  customer: {
+}.tap do |parsed_order|
+  customer = order.customer
+
+  parsed_order[:customer] = {
     id: customer.id,
     name: customer.name,
     email: customer.email,
     phone: customer.phone
-  }
-}
+  } if customer.present?
+end

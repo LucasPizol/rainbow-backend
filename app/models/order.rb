@@ -3,7 +3,7 @@
 # Table name: orders
 #
 #  id          :integer          not null, primary key
-#  customer_id :integer          not null
+#  customer_id :integer
 #  total       :decimal(10, 2)   not null
 #  status      :integer          not null
 #  created_at  :datetime         not null
@@ -18,12 +18,11 @@
 
 class Order < ApplicationRecord
   validates :status, presence: true
-  validates :customer_id, presence: true
 
   before_save :set_total_price
   after_save :remove_from_stock, if: -> { completed? }
 
-  belongs_to :customer
+  belongs_to :customer, optional: true
 
   has_many :order_products
   has_many :products, through: :order_products
@@ -46,9 +45,20 @@ class Order < ApplicationRecord
 
   def remove_from_stock
     order_products.each do |order_product|
-      product = order_product.product
-      product.stock -= order_product.quantity
-      product.save!
+      StockHistory.create!(
+        product_id: order_product.product_id,
+        quantity: order_product.quantity,
+        price: order_product.price,
+        operation: StockHistory.operations[:exit]
+      )
     end
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    super + ["id", "status", "total"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["customer", "order_products", "products"]
   end
 end

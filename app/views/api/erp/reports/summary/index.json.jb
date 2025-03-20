@@ -1,0 +1,15 @@
+# frozen_string_literal: true
+
+total_sales = Order.where("orders.status = ?", Order.statuses[:completed]).sum(:total)
+total_exits = StockHistory.where("operation = ?", StockHistory.operations[:entry]).sum("quantity * price * 1.0")
+
+{
+  summary: {
+    customersCount: Customer.count,
+    ordersCount: Order.count,
+    productsSold: OrderProduct.sum(:quantity),
+    totalSales: total_sales,
+    totalExits: total_exits,
+    totalProfit: total_sales - total_exits
+  }
+}

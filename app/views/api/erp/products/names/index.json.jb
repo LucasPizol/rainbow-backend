@@ -1,0 +1,14 @@
+# frozen_string_literal: true
+
+{
+  names: @products.map do |product|
+    image = product.images.first
+
+    {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      costPrice: product.cost_price
+    }.tap { |p| p[:image] = "https://pub-e0f245d9c7584b959e6de3cd442899b1.r2.dev/#{image.key}" if image }
+  end
+}
