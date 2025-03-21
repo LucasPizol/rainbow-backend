@@ -22,7 +22,7 @@ class Api::Erp::ProductsController < ApplicationController
         path = TemporaryFileSaver.new(file: image).save
         @product.images.attach(io: File.open(path), filename: File.basename(path))
         File.delete(path)
-      end
+      end if product_params[:images].present?
     end
 
     render :show, status: :created
