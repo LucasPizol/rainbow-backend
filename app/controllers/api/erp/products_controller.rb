@@ -28,6 +28,8 @@ class Api::Erp::ProductsController < ApplicationController
     render :show, status: :created
   rescue ActiveRecord::RecordInvalid => e
     render json: { errors: e.record.errors }, status: :unprocessable_entity
+  rescue StandardError => e
+    render json: { message: e.message }, status: :unprocessable_entity
   end
 
   def show; end
