@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::Erp::MeController < ActionController::API
+class Api::Erp::MeController < Api::ApplicationController
   def index
     @user = current_user
   rescue StandardError => e

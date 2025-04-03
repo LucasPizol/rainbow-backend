@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::Erp::Orders::ReportController < ApplicationController
+class Api::Erp::Orders::ReportController < Api::ApplicationController
   def index
     @order_report = Order
                    .select("orders.total, strftime('%m', orders.created_at) AS month, SUM(orders.total) AS total")

@@ -11,28 +11,6 @@ amazon:
   service: S3
   access_key_id: <%= ENV["ACCESS_KEY_ID"] %>
   secret_access_key: <%= ENV["SECRET_ACCESS_KEY"] %>
-  region: sa-east-1
-  bucket: abacosoftware
+  region: us-east-1
+  bucket: rainbow-piercing-bucket
   public: true
-
-magalu:
-  service: S3
-  access_key_id: <%= ENV["ACCESS_KEY_ID"] %>
-  secret_access_key: <%= ENV["SECRET_ACCESS_KEY"] %>
-  region: br-se1
-  bucket: s3-invista-bucket
-  endpoint: "https://br-se1.magaluobjects.com"
-  public: true
-  force_path_style: true
-
-cloudflare:
-  service: S3
-  access_key_id: ed78d3aed351af35413b3c908957f246
-  secret_access_key: b2ff8c40e549c94f5d782674898d2d40aadcc5c4b91962738b2dbdf60799530f
-  region: auto
-  bucket: invista-marketing
-  endpoint: https://d6b9b127cd6a5113caa6289bbc858df6.r2.cloudflarestorage.com
-  public: true
-  force_path_style: true
-  request_checksum_calculation: when_required
-  response_checksum_validation: when_required

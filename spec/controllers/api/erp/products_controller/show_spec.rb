@@ -15,7 +15,7 @@ RSpec.describe Api::Erp::ProductsController, :unit, type: :controller do
     before { authenticate_user(user) }
 
     context "when the product exists" do
-      let(:product) { create(:product) }
+      let!(:product) { create(:product) }
 
       let(:params) { { id: product.id } }
 
@@ -25,6 +25,8 @@ RSpec.describe Api::Erp::ProductsController, :unit, type: :controller do
             id: product.id,
             name: product.name,
             price: product.price.to_s,
+            costPrice: product.cost_price.to_s,
+            images: [],
             description: product.description,
             minimumStock: product.minimum_stock,
             stock: product.stock,
@@ -32,10 +34,12 @@ RSpec.describe Api::Erp::ProductsController, :unit, type: :controller do
               id: product.category.id,
               name: product.category.name
             },
-            subcategory: {
-              id: product.subcategory.id,
-              name: product.subcategory.name
-            },
+            subcategories: product.subcategories.map do |subcategory|
+              {
+                id: subcategory.id,
+                name: subcategory.name
+              }
+            end
           }
         }
       end

@@ -15,7 +15,8 @@
 class Subcategory < ApplicationRecord
   has_paper_trail
 
-  has_many :products
+  has_many :subcategory_products
+  has_many :products, through: :subcategory_products
 
   validates :name, presence: true
 
@@ -23,7 +24,7 @@ class Subcategory < ApplicationRecord
   before_update :check_for_products
 
   def check_for_products
-    if products.any?
+    if subcategory_products.any?
       errors.add(:base, 'Não é possível excluir ou alterar uma subcategoria com produtos associados')
 
       throw :abort

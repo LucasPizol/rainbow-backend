@@ -7,7 +7,7 @@ product = order_product.product
   orderId: order_product.order_id,
   price: order_product.price,
   quantity: order_product.quantity,
-  discount: order_product.discount
+  discount: order_product.discount.to_s
 }.tap do |parsed_order_product|
   product = order_product.product
   first_image = product&.images&.first

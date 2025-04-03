@@ -23,12 +23,15 @@ RSpec.describe Api::Erp::OrderProductsController, :unit, type: :controller do
         {
           orderProduct: {
             id: order_product.id,
-            name: order_product.product&.name,
-            productId: order_product.product_id,
             orderId: order_product.order_id,
             price: order_product.price.to_s,
             quantity: 2,
-            discount: order_product.discount
+            discount: order_product.discount.to_s,
+            product: {
+              id: order_product.product_id,
+              name: order_product.product&.name,
+              price: order_product.product&.price.to_s
+            }
           }
         }
       end

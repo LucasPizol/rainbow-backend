@@ -20,7 +20,7 @@ class Order < ApplicationRecord
   validates :status, presence: true
 
   before_save :set_total_price
-  after_save :remove_from_stock, if: -> { completed? }
+  before_update :remove_from_stock, if: -> { completed? }
 
   belongs_to :customer, optional: true
 

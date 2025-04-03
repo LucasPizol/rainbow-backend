@@ -1,0 +1,27 @@
+<div class="carousel" data-controller="carousel">
+  <div class="carousel-container">
+    <% @carousel_products.each_with_index do |product, index| %>
+      <div class="carousel-item <%= 'active' if index == 0 %>" data-carousel-target="item">
+        <div class="carousel-item-content">
+          <h2><%= product.name %></h2>
+          <p><%= product.description %></p>
+          <p><%= number_to_currency(product.price, unit: "R$ ", separator: ",", delimiter: ".") %></p>
+
+          <%= link_to "Ver mais", "#", class: "carousel-item-button" %>
+        </div>
+
+        <%= image_tag product.images.sample.url, alt: product.name %>
+      </div>
+    <% end %>
+
+    <div class="carousel-controls">
+      <% @carousel_products.each_with_index do |_, index| %>
+        <div class="carousel-dot <%= 'active' if index == 0 %>"
+             data-carousel-target="dot"
+             data-index="<%= index %>"
+             data-action="click->carousel#goToSlide">
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

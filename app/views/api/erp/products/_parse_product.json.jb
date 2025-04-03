@@ -24,7 +24,7 @@ category = product.category
   parsed_product[:images] = product.images.map do |image|
     {
       id: image.id,
-      url: "https://pub-e0f245d9c7584b959e6de3cd442899b1.r2.dev/#{image.key}"
+      url: image.url
     }
   end.compact
 end

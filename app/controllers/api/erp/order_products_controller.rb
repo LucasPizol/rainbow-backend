@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::Erp::OrderProductsController < ApplicationController
+class Api::Erp::OrderProductsController < Api::ApplicationController
   before_action :set_order_product, only: %i[update destroy]
 
   def create

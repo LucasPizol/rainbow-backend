@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_19_161939) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_03_124448) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -39,11 +39,60 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_19_161939) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "addresses", force: :cascade do |t|
+    t.integer "client_id", null: false
+    t.string "street", null: false
+    t.string "number", null: false
+    t.string "complement"
+    t.string "neighborhood", null: false
+    t.string "city", null: false
+    t.string "state", null: false
+    t.string "zip_code", null: false
+    t.string "reference"
+    t.boolean "is_default", default: false
+    t.boolean "is_invoicing_address", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_addresses_on_client_id"
+  end
+
+  create_table "cart_items", force: :cascade do |t|
+    t.integer "product_id", null: false
+    t.integer "client_id", null: false
+    t.integer "quantity", default: 1
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_cart_items_on_client_id"
+    t.index ["product_id"], name: "index_cart_items_on_product_id"
+  end
+
   create_table "categories", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_categories_on_name", unique: true
+  end
+
+  create_table "clients", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "phone", null: false
+    t.string "document", null: false
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "last_sign_in_at"
+    t.string "last_sign_in_ip"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["confirmation_token"], name: "index_clients_on_confirmation_token", unique: true
+    t.index ["email"], name: "index_clients_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_clients_on_reset_password_token", unique: true
   end
 
   create_table "customers", force: :cascade do |t|
@@ -53,6 +102,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_19_161939) do
     t.string "address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "order_items", force: :cascade do |t|
+    t.integer "order_request_id", null: false
+    t.integer "product_id", null: false
+    t.integer "quantity", default: 1
+    t.decimal "price", precision: 10, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_request_id"], name: "index_order_items_on_order_request_id"
+    t.index ["product_id"], name: "index_order_items_on_product_id"
   end
 
   create_table "order_products", force: :cascade do |t|
@@ -65,6 +125,28 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_19_161939) do
     t.datetime "updated_at", null: false
     t.index ["order_id"], name: "index_order_products_on_order_id"
     t.index ["product_id"], name: "index_order_products_on_product_id"
+  end
+
+  create_table "order_requests", force: :cascade do |t|
+    t.integer "client_id", null: false
+    t.integer "address_id", null: false
+    t.integer "payment_method_id", null: false
+    t.integer "status_id", null: false
+    t.integer "payment_status_id", null: false
+    t.integer "shipping_status_id", null: false
+    t.decimal "total_price", precision: 10, scale: 2
+    t.decimal "shipping_price", precision: 10, scale: 2
+    t.decimal "discount_price", precision: 10, scale: 2
+    t.string "tracking_number"
+    t.string "tracking_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["address_id"], name: "index_order_requests_on_address_id"
+    t.index ["client_id"], name: "index_order_requests_on_client_id"
+    t.index ["payment_method_id"], name: "index_order_requests_on_payment_method_id"
+    t.index ["payment_status_id"], name: "index_order_requests_on_payment_status_id"
+    t.index ["shipping_status_id"], name: "index_order_requests_on_shipping_status_id"
+    t.index ["status_id"], name: "index_order_requests_on_status_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -149,8 +231,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_19_161939) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "addresses", "clients"
+  add_foreign_key "cart_items", "clients"
+  add_foreign_key "cart_items", "products"
+  add_foreign_key "order_items", "order_requests"
+  add_foreign_key "order_items", "products"
   add_foreign_key "order_products", "orders"
   add_foreign_key "order_products", "products"
+  add_foreign_key "order_requests", "addresses"
+  add_foreign_key "order_requests", "clients"
+  add_foreign_key "order_requests", "payment_methods"
+  add_foreign_key "order_requests", "payment_statuses"
+  add_foreign_key "order_requests", "shipping_statuses"
+  add_foreign_key "order_requests", "statuses"
   add_foreign_key "orders", "customers"
   add_foreign_key "products", "categories"
   add_foreign_key "stock_histories", "products"

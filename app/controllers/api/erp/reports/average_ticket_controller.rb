@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::Erp::Reports::AverageTicketController < ApplicationController
+class Api::Erp::Reports::AverageTicketController < Api::ApplicationController
   def index
     average_tickets = Product
                               .ransack(search_params)

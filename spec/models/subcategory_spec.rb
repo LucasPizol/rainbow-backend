@@ -26,7 +26,8 @@ RSpec.describe Subcategory, type: :model do
     describe "check_for_products" do
       let(:category) { create(:category) }
       let(:subcategory) { create(:subcategory) }
-      let!(:product) { create(:product, category: category, subcategory: subcategory) }
+      let(:product) { create(:product, category: category) }
+      let!(:subcategory_product) { create(:subcategory_product, subcategory: subcategory, product: product) }
 
       it "cannot delete subcategory with products" do
         expect { subcategory.destroy }.not_to change(Subcategory, :count)

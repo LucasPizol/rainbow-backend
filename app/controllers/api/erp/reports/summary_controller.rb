@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::Erp::Reports::SummaryController < ApplicationController
+class Api::Erp::Reports::SummaryController < Api::ApplicationController
   def index
     @customers_count = Customer.count
     @orders_count = Order.count

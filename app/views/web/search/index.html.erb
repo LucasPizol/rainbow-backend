@@ -1,0 +1,32 @@
+<div class="search-results">
+  <h1>Resultados da Busca</h1>
+
+  <div class="search-sort">
+    <%= sort_link(@q, :name, "Nome") %>
+    <%= sort_link(@q, :price, "Preço") %>
+    <%= sort_link(@q, :created_at, "Mais Recentes") %>
+  </div>
+
+  <% if @products.any? %>
+    <div class="products-grid">
+      <% @products.each do |product| %>
+        <div class="product-card">
+          <%= image_tag product.images.sample.url, alt: product.name if product.images.attached? %>
+          <h2><%= product.name %></h2>
+          <p><%= product.description %></p>
+          <div class="product-materials">
+            <% product.subcategories.each do |subcategory| %>
+              <span class="product-material">
+                <%= subcategory.name %>
+              </span>
+            <% end %>
+          </div>
+          <p class="price"><%= number_to_currency(product.price, unit: "R$ ", separator: ",", delimiter: ".") %></p>
+          <%= link_to "Ver detalhes", "#", class: "button" %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p>Nenhum produto encontrado.</p>
+  <% end %>
+</div>

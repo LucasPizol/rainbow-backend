@@ -1,0 +1,22 @@
+<%= search_form_for @q, url: search_path, class: "header-details" do |f| %>
+  <%= f.collection_select :category_id_eq,
+      Category.all,
+      :id,
+      :name,
+      { prompt: "Material", include_blank: true },
+      { id: "category" } %>
+
+  <%= f.collection_select :subcategories_id_in,
+      Subcategory.all,
+      :id,
+      :name,
+      { prompt: "Furo", include_blank: true },
+      { id: "subcategory" } %>
+
+  <div class="header-price">
+    <%= f.number_field :price_gteq, placeholder: "Preço mínimo" %>
+    <%= f.number_field :price_lteq, placeholder: "Preço máximo" %>
+  </div>
+
+  <%= f.submit "Buscar", class: "header-filter" %>
+<% end %>

@@ -1,10 +1,155 @@
-/*
- * This is a manifest file that'll be compiled into application.css.
- *
- * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
- * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
- * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
- * depending on specificity.
- *
- * Consider organizing styles into separate files for maintainability.
- */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+* {
+  font-family: "Montserrat", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+button,
+input,
+textarea {
+  font-family: "Montserrat", sans-serif;
+}
+
+:root {
+  --primary-color: #3c1970;
+  --primary-color-dark: #2c1254;
+  --secondary-color: #6034b3;
+  --padding: 20px;
+
+  @media (max-width: 768px) {
+    --padding: 10px;
+  }
+}
+
+header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  padding: 10px var(--padding);
+  width: 100%;
+}
+
+.header-logo {
+  width: 70px;
+  height: 100%;
+}
+
+.header-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.header-container nav {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.header-container nav a {
+  color: var(--primary-color);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.header-details {
+  width: 100%;
+  background-color: var(--primary-color-dark);
+  padding: 10px var(--padding);
+  color: #fff;
+  text-align: center;
+
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-details select {
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--primary-color-dark);
+  color: #fff;
+  cursor: pointer;
+  outline: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.header-price {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-price input {
+  width: 150px;
+}
+
+.header-cart,
+.header-account {
+  width: 20px;
+  height: 20px;
+  color: var(--primary-color);
+}
+
+input {
+  border: none;
+  border: 1px solid var(--primary-color);
+  padding: 5px;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.header-filter-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-filter {
+  color: var(--primary-color-dark);
+  background-color: #fff;
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}

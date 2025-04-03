@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::Erp::CustomersController < ApplicationController
+class Api::Erp::CustomersController < Api::ApplicationController
   before_action :set_customer, only: %i[show update destroy]
   before_action :set_pagination, only: %i[index]
 

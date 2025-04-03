@@ -32,23 +32,35 @@ RSpec.describe Product, type: :model do
     it { is_expected.to validate_presence_of(:status) }
     it { is_expected.to validate_presence_of(:stock) }
     it { is_expected.to validate_numericality_of(:stock).is_greater_than_or_equal_to(0) }
-    it { is_expected.to validate_numericality_of(:price).is_greater_than_or_equal_to(0) }
+    it { is_expected.to validate_numericality_of(:cost_price).is_greater_than_or_equal_to(0) }
     it { is_expected.to validate_presence_of(:price) }
-
     it { is_expected.to have_many_attached(:images) }
 
     it { is_expected.to belong_to(:category) }
-    it { is_expected.to belong_to(:subcategory).optional }
+
+    it { is_expected.to have_many(:subcategory_products).dependent(:destroy) }
+    it { is_expected.to have_many(:subcategories).through(:subcategory_products) }
+    it { is_expected.to have_many(:stock_histories).dependent(:destroy) }
   end
 
   context 'callbacks' do
     describe "generate_sku" do
       let(:category) { create(:category, name: 'Category') }
-      let(:subcategory) { create(:subcategory, name: 'Subcategory') }
-      let(:product) { create(:product, category: category, subcategory: subcategory, name: 'Product') }
+      let(:product) { create(:product, category: category, name: 'Product') }
 
       it 'generates a sku' do
-        expect(product.sku[0..11]).to eq('CAT-SUB-PRO-')
+        expect(product.sku[0..7]).to eq('CAT-PRO-')
+      end
+    end
+
+    describe "generate_stock_history" do
+      let(:category) { create(:category, name: 'Category') }
+      let(:product) { create(:product, category: category, name: 'Product') }
+
+      it 'generates a stock history' do
+        product.generate_stock_history(quantity: 10)
+
+        expect(product.stock_histories.count).to eq(1)
       end
     end
   end

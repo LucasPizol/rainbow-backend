@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::Erp::Reports::InOutController < ApplicationController
+class Api::Erp::Reports::InOutController < Api::ApplicationController
   def index
     @order_report = Order
                         .where("orders.status = ?", Order.statuses[:completed])

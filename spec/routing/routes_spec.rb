@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe 'Routes', type: :routing do
   describe 'login' do
-    it_behaves_like 'routes', route: '/api/erp/login', actions: %i[create]
+    it_behaves_like 'routes', route: '/api/erp/login', controller: '/api/erp/users/sessions', actions: %i[create]
   end
 
   describe 'categories' do

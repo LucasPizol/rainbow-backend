@@ -24,7 +24,19 @@ RSpec.describe Api::Erp::StockHistoriesController, :unit, type: :controller do
 
     let(:expected_response) do
       {
-        data: StockHistory.all.as_json.map(&:deep_symbolize_keys),
+        data: StockHistory.all.order(created_at: :desc).map do |stock_history|
+          {
+            id: stock_history.id,
+            quantity: stock_history.quantity,
+            price: stock_history.price,
+            operation: stock_history.operation,
+            createdAt: stock_history.created_at,
+            product: {
+              id: stock_history.product.id,
+              name: stock_history.product.name
+            }
+          }
+        end,
         page: 1,
         pages: 1,
         total: 3
@@ -34,7 +46,7 @@ RSpec.describe Api::Erp::StockHistoriesController, :unit, type: :controller do
     it 'returns the stock histories' do
       send_request
 
-      expect(json_response).to match(expected_response)
+      expect(json_response).to eq(JSON.parse(expected_response.to_json, symbolize_names: true))
     end
   end
 end

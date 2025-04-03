@@ -30,19 +30,30 @@ class Product < ApplicationRecord
             :category_id,
             :status,
             :stock,
-            :price, presence: true
+            :price,
+            :cost_price,
+            presence: true
 
   validates :stock, numericality: { greater_than_or_equal_to: 0 }
-  validates :price, numericality: { greater_than_or_equal_to: 0 }
+  validates :cost_price, numericality: { greater_than_or_equal_to: 0 }
+  validates :price, numericality: { greater_than: :cost_price }
 
   belongs_to :category
 
   has_many :subcategory_products, dependent: :destroy
   has_many :subcategories, through: :subcategory_products
+  has_many :stock_histories, dependent: :destroy
 
   before_save :generate_sku, if: -> { name_changed? }
 
-  after_create :generate_stock_history
+  def generate_stock_history(quantity:)
+    StockHistory.create!(
+      product_id: self.id,
+      quantity: quantity,
+      price: self.price,
+      operation: StockHistory.operations[:entry]
+    )
+  end
 
   private
 
@@ -54,15 +65,6 @@ class Product < ApplicationRecord
 
   def sku_formatter(content)
     content.upcase.split(" ").map { |word| word[0, 3] }.join("-")
-  end
-
-  def generate_stock_history
-    StockHistory.create!(
-      product_id: self.id,
-      quantity: self.stock,
-      price: self.price,
-      operation: StockHistory.operations[:entry]
-    )
   end
 
   def self.ransackable_attributes(_auth_object = nil)

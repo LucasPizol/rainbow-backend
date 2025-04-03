@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::Erp::StockHistoriesController < ApplicationController
+class Api::Erp::StockHistoriesController < Api::ApplicationController
   before_action :set_stock_history, only: :destroy
   before_action :set_pagination, only: :index
 

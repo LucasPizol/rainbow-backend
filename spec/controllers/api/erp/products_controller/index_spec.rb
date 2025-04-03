@@ -24,7 +24,28 @@ RSpec.describe Api::Erp::ProductsController, :unit, type: :controller do
 
       let(:expected_response) do
         {
-          data: Product.all.as_json.map(&:deep_symbolize_keys),
+          data: Product.all.includes(:category, :subcategories).order(name: :asc).map do |product|
+            {
+              id: product.id,
+              name: product.name,
+              price: product.price.to_s,
+              costPrice: product.cost_price.to_s,
+              images: [],
+              description: product.description,
+              minimumStock: product.minimum_stock,
+              stock: product.stock,
+              category: {
+                id: product.category.id,
+                name: product.category.name
+              },
+              subcategories: product.subcategories.map do |subcategory|
+                {
+                  id: subcategory.id,
+                  name: subcategory.name
+                }
+              end
+            }
+          end,
           page: 1,
           pages: 1,
           total: 3

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::Erp::OrdersController < ApplicationController
+class Api::Erp::OrdersController < Api::ApplicationController
   before_action :set_order, only: %i[show update destroy]
   before_action :set_pagination, only: %i[index]
 

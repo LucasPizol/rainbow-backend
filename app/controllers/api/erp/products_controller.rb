@@ -1,30 +1,26 @@
 # frozen_string_literal: true
 
-class Api::Erp::ProductsController < ApplicationController
+class Api::Erp::ProductsController < Api::ApplicationController
   before_action :set_pagination, only: %i[index]
   before_action :set_product, only: %i[show destroy update]
 
   def index
     @products = Product
-    .ransack(search_params)
-    .result
-    .includes(:category, :subcategories, :images_attachments)
-    .order(name: :asc)
-    .page(@page).per(@per_page)
+                      .ransack(search_params)
+                      .result
+                      .includes(:category, :subcategories, :images_attachments)
+                      .order(name: :asc)
+                      .page(@page).per(@per_page)
   end
 
   def create
     ActiveRecord::Base.transaction do
-      @product = Product.create!(product_params.merge(status: "active").except(:subcategories, :images))
+      @product = Product.create!(product_params.merge(status: :active, stock: 0).except(:subcategories, :images))
       @product.subcategories = Subcategory.where(id: product_params[:subcategories])
-
-      product_params[:images].each do |image|
-        path = TemporaryFileSaver.new(file: image).save
-        @product.images.attach(io: File.open(path), filename: File.basename(path))
-        File.delete(path)
-      end if product_params[:images].present?
+      @product.generate_stock_history(quantity: product_params[:stock]) if product_params[:stock]&.to_i&.positive?
     end
 
+    @product.images.attach(product_params[:images]) if product_params[:images].present?
     render :show, status: :created
   rescue ActiveRecord::RecordInvalid => e
     render json: { errors: e.record.errors }, status: :unprocessable_entity
@@ -48,13 +44,11 @@ class Api::Erp::ProductsController < ApplicationController
     ActiveRecord::Base.transaction do
       @product.subcategories = Subcategory.where(id: update_params[:subcategories]) if update_params[:subcategories].present?
 
-      update_params[:images].each do |image|
-        path = TemporaryFileSaver.new(file: image).save
-        @product.images.attach(io: File.open(path), filename: File.basename(path))
-        File.delete(path)
-      end if update_params[:images].present?
+      update_params[:images_to_remove].each do |image_id|
+        @product.images.find(image_id).purge
+      end if update_params[:images_to_remove].present?
 
-      @product.images.where(id: update_params[:images_to_remove]).each(&:purge) if update_params[:images_to_remove].present?
+      @product.images.attach(update_params[:images]) if update_params[:images].present?
     end
 
     render :show, status: :ok

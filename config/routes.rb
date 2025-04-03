@@ -1,14 +1,20 @@
 Rails.application.routes.draw do
+  devise_for :clients
+  devise_for :customers
   devise_for :users, path: '', path_names: {
     sign_in: 'api/erp/login',
     sign_out: 'api/erp/logout',
-    registration: 'api/erp/signup'
+    registration: 'api/erp/signup',
   },
   controllers: {
     sessions: 'api/erp/users/sessions',
     registrations: 'api/erp/users/registrations',
     logout: 'api/erp/users/logout'
-  }
+  },
+  defaults: { format: :json }
+
+  get "/", to: "web/home#index"
+  get 'busca', to: 'web/search#index', as: :search
 
   namespace :api, defaults: { format: :json }, constraints: { id: /\d+/ } do
     namespace :erp do

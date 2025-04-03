@@ -19,10 +19,11 @@ require 'spec_helper'
 RSpec.describe Order, type: :model do
   context 'validations' do
     it { is_expected.to validate_presence_of(:status) }
-    it { is_expected.to validate_presence_of(:customer_id) }
     it { is_expected.to have_many(:order_products) }
     it { is_expected.to have_many(:products).through(:order_products) }
     it { is_expected.to accept_nested_attributes_for(:order_products) }
+
+    it { is_expected.to belong_to(:customer).optional }
   end
 
   context 'enums' do
@@ -49,11 +50,11 @@ RSpec.describe Order, type: :model do
     let(:order) { create(:order, status: :pending) }
     let(:product) { create(:product, stock: 10) }
     let!(:order_product) { create(:order_product, order: order, product: product, quantity: 5) }
+    subject { order.update!(status: :completed) }
 
     it 'removes the quantity from the product stock' do
-      order.status = :completed
       order.order_products.reload
-      order.save!
+      order.update!(status: :completed)
 
       expect(product.reload.stock).to eq(5)
     end

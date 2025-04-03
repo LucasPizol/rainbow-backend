@@ -39,8 +39,9 @@ RSpec.describe Api::Erp::SubcategoriesController, :unit, type: :controller do
     end
 
     context "when the subcategory has products associated" do
-      let!(:subcategory) { create(:subcategory) }
-      let!(:product) { create(:product, subcategory: subcategory) }
+      let(:subcategory) { create(:subcategory) }
+      let(:product) { create(:product) }
+      let!(:subcategory_product) { create(:subcategory_product, subcategory: subcategory, product: product) }
       let(:params) { { id: subcategory.id } }
 
       it { is_expected.to have_http_status(:unprocessable_entity) }

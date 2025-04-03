@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::Erp::Products::NamesController < ApplicationController
+class Api::Erp::Products::NamesController < Api::ApplicationController
   def index
     @products = Product
                       .ransack(search_params)
