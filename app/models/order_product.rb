@@ -3,18 +3,23 @@
 # Table name: order_products
 #
 #  id         :integer          not null, primary key
-#  order_id   :integer          not null
-#  product_id :integer
-#  quantity   :integer          not null
-#  price      :decimal(10, 2)   not null
 #  discount   :decimal(10, 2)
+#  price      :decimal(10, 2)   not null
+#  quantity   :integer          not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  order_id   :integer          not null
+#  product_id :integer
 #
 # Indexes
 #
 #  index_order_products_on_order_id    (order_id)
 #  index_order_products_on_product_id  (product_id)
+#
+# Foreign Keys
+#
+#  order_id    (order_id => orders.id)
+#  product_id  (product_id => products.id)
 #
 
 # frozen_string_literal: true

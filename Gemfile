@@ -34,9 +34,9 @@ gem "image_processing", "~> 1.2"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
-  gem "annotate"
   gem "brakeman", require: false
   gem 'factory_bot_rails'
+  gem "annotaterb"
 
   gem 'rspec-rails'
   gem 'faker'

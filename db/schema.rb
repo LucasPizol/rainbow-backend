@@ -49,8 +49,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_03_124448) do
     t.string "state", null: false
     t.string "zip_code", null: false
     t.string "reference"
-    t.boolean "is_default", default: false
-    t.boolean "is_invoicing_address", default: false
+    t.string "name", null: false
+    t.boolean "is_default", default: false, null: false
+    t.boolean "is_invoicing_address", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["client_id"], name: "index_addresses_on_client_id"
@@ -104,17 +105,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_03_124448) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "order_items", force: :cascade do |t|
-    t.integer "order_request_id", null: false
-    t.integer "product_id", null: false
-    t.integer "quantity", default: 1
-    t.decimal "price", precision: 10, scale: 2
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["order_request_id"], name: "index_order_items_on_order_request_id"
-    t.index ["product_id"], name: "index_order_items_on_product_id"
-  end
-
   create_table "order_products", force: :cascade do |t|
     t.integer "order_id", null: false
     t.integer "product_id"
@@ -127,26 +117,34 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_03_124448) do
     t.index ["product_id"], name: "index_order_products_on_product_id"
   end
 
+  create_table "order_request_items", force: :cascade do |t|
+    t.integer "order_request_id", null: false
+    t.integer "product_id", null: false
+    t.integer "quantity", default: 1, null: false
+    t.decimal "price", precision: 10, scale: 2, default: "0.0", null: false
+    t.decimal "discount", precision: 10, scale: 2, default: "0.0", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_request_id"], name: "index_order_request_items_on_order_request_id"
+    t.index ["product_id"], name: "index_order_request_items_on_product_id"
+  end
+
   create_table "order_requests", force: :cascade do |t|
     t.integer "client_id", null: false
     t.integer "address_id", null: false
-    t.integer "payment_method_id", null: false
-    t.integer "status_id", null: false
-    t.integer "payment_status_id", null: false
-    t.integer "shipping_status_id", null: false
-    t.decimal "total_price", precision: 10, scale: 2
-    t.decimal "shipping_price", precision: 10, scale: 2
-    t.decimal "discount_price", precision: 10, scale: 2
+    t.integer "status", null: false
+    t.integer "payment_method", null: false
+    t.integer "payment_status", null: false
+    t.integer "shipping_status", null: false
     t.string "tracking_number"
     t.string "tracking_url"
+    t.decimal "total_price", precision: 10, scale: 2, default: "0.0", null: false
+    t.decimal "shipping_price", precision: 10, scale: 2, default: "0.0", null: false
+    t.decimal "discount_price", precision: 10, scale: 2, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["address_id"], name: "index_order_requests_on_address_id"
     t.index ["client_id"], name: "index_order_requests_on_client_id"
-    t.index ["payment_method_id"], name: "index_order_requests_on_payment_method_id"
-    t.index ["payment_status_id"], name: "index_order_requests_on_payment_status_id"
-    t.index ["shipping_status_id"], name: "index_order_requests_on_shipping_status_id"
-    t.index ["status_id"], name: "index_order_requests_on_status_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -234,16 +232,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_03_124448) do
   add_foreign_key "addresses", "clients"
   add_foreign_key "cart_items", "clients"
   add_foreign_key "cart_items", "products"
-  add_foreign_key "order_items", "order_requests"
-  add_foreign_key "order_items", "products"
   add_foreign_key "order_products", "orders"
   add_foreign_key "order_products", "products"
+  add_foreign_key "order_request_items", "order_requests"
+  add_foreign_key "order_request_items", "products"
   add_foreign_key "order_requests", "addresses"
   add_foreign_key "order_requests", "clients"
-  add_foreign_key "order_requests", "payment_methods"
-  add_foreign_key "order_requests", "payment_statuses"
-  add_foreign_key "order_requests", "shipping_statuses"
-  add_foreign_key "order_requests", "statuses"
   add_foreign_key "orders", "customers"
   add_foreign_key "products", "categories"
   add_foreign_key "stock_histories", "products"

@@ -3,17 +3,21 @@
 # Table name: stock_histories
 #
 #  id          :integer          not null, primary key
-#  product_id  :integer          not null
-#  quantity    :integer          not null
-#  price       :decimal(10, 2)   not null
-#  operation   :integer          not null
 #  description :string
+#  operation   :integer          not null
+#  price       :decimal(10, 2)   not null
+#  quantity    :integer          not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  product_id  :integer          not null
 #
 # Indexes
 #
 #  index_stock_histories_on_product_id  (product_id)
+#
+# Foreign Keys
+#
+#  product_id  (product_id => products.id)
 #
 
 RSpec.describe StockHistory, type: :model do

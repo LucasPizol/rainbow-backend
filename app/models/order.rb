@@ -3,15 +3,19 @@
 # Table name: orders
 #
 #  id          :integer          not null, primary key
-#  customer_id :integer
-#  total       :decimal(10, 2)   not null
 #  status      :integer          not null
+#  total       :decimal(10, 2)   not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  customer_id :integer
 #
 # Indexes
 #
 #  index_orders_on_customer_id  (customer_id)
+#
+# Foreign Keys
+#
+#  customer_id  (customer_id => customers.id)
 #
 
 # frozen_string_literal: true

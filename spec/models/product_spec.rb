@@ -3,22 +3,26 @@
 # Table name: products
 #
 #  id            :integer          not null, primary key
-#  name          :string           not null
+#  cost_price    :decimal(10, 2)
 #  description   :text
+#  minimum_stock :integer
+#  name          :string           not null
 #  price         :decimal(10, 2)   not null
-#  stock         :integer          not null
 #  sku           :string           not null
 #  status        :string           not null
-#  category_id   :integer          not null
-#  minimum_stock :integer
+#  stock         :integer          not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  cost_price    :decimal(10, 2)
+#  category_id   :integer          not null
 #
 # Indexes
 #
 #  index_products_on_category_id  (category_id)
 #  index_products_on_sku          (sku) UNIQUE
+#
+# Foreign Keys
+#
+#  category_id  (category_id => categories.id)
 #
 
 # frozen_string_literal: true
