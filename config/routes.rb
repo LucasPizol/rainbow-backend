@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  devise_for :clients
+  devise_for :clients, controllers: {
+    sessions: 'web/clients/sessions',
+    registrations: 'web/clients/registrations'
+  }
   devise_for :customers
   devise_for :users, path: '', path_names: {
     sign_in: 'api/erp/login',
@@ -13,6 +16,7 @@ Rails.application.routes.draw do
   },
   defaults: { format: :json }
 
+  root to: 'web/home#index'
   get "/", to: "web/home#index"
   get 'busca', to: 'web/search#index', as: :search
 
@@ -48,6 +52,10 @@ Rails.application.routes.draw do
       resources :stock_histories, only: %i[index create destroy]
       resources :me, only: :index
     end
+  end
+
+  namespace :web do
+    resources :cart_items, only: [:create]
   end
 
   get "up" => "rails/health#show", as: :rails_health_check

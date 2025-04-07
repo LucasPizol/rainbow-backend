@@ -21,10 +21,12 @@
 # frozen_string_literal: true
 
 class Order < ApplicationRecord
+  include CheckOrderCompleted
+
   validates :status, presence: true
 
   before_save :set_total_price
-  before_update :remove_from_stock, if: -> { completed? }
+  after_update :remove_from_stock, if: -> { completed? }
 
   belongs_to :customer, optional: true
 

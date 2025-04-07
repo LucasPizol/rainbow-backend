@@ -16,7 +16,6 @@
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
-
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
@@ -24,6 +23,32 @@
 
   <body>
     <%= render "web/shared/header" %>
-    <%= yield %>
+
+    <div class="container">
+      <%= yield %>
+    </div>
+
+    <% flash.each do |type, message| %>
+      <div
+        data-flash-message
+        data-type="<%= case type.to_sym
+                        when :notice then 'success'
+                        when :alert then 'error'
+                        else 'info'
+                      end %>"
+        data-message="<%= j message %>">
+      </div>
+    <% end %>
+
+    <script>
+      document.addEventListener("turbo:load", function () {
+        const flashMessage = document.querySelector("[data-flash-message]");
+        if (flashMessage) {
+          const type = flashMessage.dataset.type;
+          const message = flashMessage.dataset.message;
+          if (type && message) toastr[type](message);
+        }
+      });
+    </script>
   </body>
 </html>

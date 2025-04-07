@@ -61,3 +61,8 @@ pt-BR:
       not_saved:
         one: "1 erro impediu que este %{resource} fosse salvo:"
         other: "%{count} erros impediram que este %{resource} fosse salvo:"
+      client:
+        email_already_exists: "Este e-mail já está em uso"
+        document_already_exists: "Este CPF já está em uso"
+        phone_already_exists: "Este telefone já está em uso"
+        name_already_exists: "Este nome já está em uso"

@@ -31,6 +31,10 @@
 #
 class OrderRequest < ApplicationRecord
   has_many :order_request_items, dependent: :destroy
+  has_many :products, through: :order_request_items
+
+  belongs_to :address
+  belongs_to :client
 
   validates :status, :payment_method, :payment_status, :shipping_status, presence: true
 
@@ -38,4 +42,12 @@ class OrderRequest < ApplicationRecord
   enum :payment_method, { credit_card: 0, debit_card: 1, billet: 2, pix: 3 }
   enum :payment_status, { payment_pending: 0, payment_paid: 1, payment_failed: 2 }
   enum :shipping_status, { shipping_pending: 0, shipping_shipped: 1, shipping_delivered: 2, shipping_canceled: 3 }
+
+  def total_price
+    order_request_items.sum(:price)
+  end
+
+  def discount_price
+    order_request_items.sum(:discount_price)
+  end
 end

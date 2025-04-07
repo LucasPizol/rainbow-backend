@@ -12,15 +12,72 @@
         <%= icon("shopping-cart") %>
       </div>
 
-      <%= search_form_for @q, url: search_path, class: "header-search" do |f| %>
+      <%= search_form_for Product.ransack, url: search_path, class: "header-search" do |f| %>
         <%= f.search_field :name_cont, placeholder: "Buscar" %>
       <% end %>
 
       <div class="header-account">
-        <%= icon("user") %>
+        <% if current_client %>
+          <div class="dropdown">
+            <button class="dropdown-toggle">
+              <%= current_client.name %>
+              <%= icon("user") %>
+            </button>
+            <div class="dropdown-menu">
+              <%= link_to "Minha conta", "#" %>
+              <%= link_to "Meus pedidos", "#" %>
+              <%= link_to "Sair", destroy_client_session_path, method: :delete, data: { turbo_method: :delete } %>
+            </div>
+          </div>
+        <% else %>
+          <div class="dropdown">
+            <button class="dropdown-toggle">
+              Entrar
+              <%= icon("user") %>
+            </button>
+            <div class="dropdown-menu">
+              <%= link_to "Login", new_client_session_path %>
+              <%= link_to "Cadastrar", new_client_registration_path %>
+            </div>
+          </div>
+        <% end %>
       </div>
     </nav>
   </div>
 
-  <%= render "web/shared/advanced_search" %>
+  <% if @q %>
+    <%= render "web/shared/advanced_search" %>
+  <% end %>
 </header>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const logoutLinks = document.querySelectorAll('a[data-turbo-method="delete"]');
+
+    logoutLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        fetch(this.href, {
+          method: 'DELETE',
+          headers: {
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+            'Accept': 'application/json'
+          },
+          credentials: 'same-origin'
+        })
+        .then(response => {
+          if (response.ok) {
+            window.location.reload();
+          } else {
+            alert('Erro ao fazer logout');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Erro ao fazer logout');
+        });
+      });
+    });
+  });
+</script>

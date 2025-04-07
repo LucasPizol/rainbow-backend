@@ -1,0 +1,45 @@
+
+<div class="auth-container">
+
+  <%= form_for(@resource, as: @resource_name, url: registration_path(@resource_name), html: { class: "auth-form" }) do |f| %>
+    <h2>Cadastre-se</h2>
+
+    <div class="field">
+      <%= f.label :name, "Nome" %>
+      <%= f.text_field :name, autofocus: true, autocomplete: "name" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :phone, "Telefone" %>
+      <%= f.text_field :phone, autofocus: true, autocomplete: "phone" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :document, "CPF" %>
+      <%= f.text_field :document, autofocus: true, autocomplete: "document" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :email, "Email" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :password, "Senha" %>
+      <% if @minimum_password_length %>
+        <em>(<%= @minimum_password_length %> caracteres mínimos)</em>
+      <% end %>
+      <%= f.password_field :password, autocomplete: "new-password" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :password_confirmation, "Confirmar senha" %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Cadastrar", class: "primary" %>
+      <%= link_to "Já tem uma conta? Faça login", new_session_path(@resource_name) %>
+    </div>
+  <% end %>
+</div>

@@ -31,11 +31,35 @@
         </div>
 
         <div class="product-button-container">
-          <button class="product-button">
-            Adicionar ao carrinho
+          <button class="product-button" <%= product.in_stock == 0 ? "disabled" : "" %> onclick="addProductToCart(<%= product.id %>)" >
+            <%= product.in_stock == 0 ? "Sem estoque" : "Adicionar ao carrinho" %>
           </button>
         </div>
       </div>
     <% end %>
   </div>
 </div>
+
+<script>
+  function addProductToCart(productId) {
+    fetch('/web/cart_items', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+      },
+      body: JSON.stringify({ product_id: productId })
+    })
+    .then(response => {
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        alert('Erro ao adicionar produto ao carrinho');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Erro ao adicionar produto ao carrinho');
+    });
+  }
+</script>

@@ -25,11 +25,14 @@
 # frozen_string_literal: true
 
 class OrderProduct < ApplicationRecord
+  include CheckOrderCompleted
+
   belongs_to :order
   belongs_to :product, optional: true
 
   validates :price, presence: true
   validates :quantity, presence: true
+
 
   before_save :set_discount
 
@@ -43,5 +46,11 @@ class OrderProduct < ApplicationRecord
 
   def self.ransackable_attributes(auth_object = nil)
     super + ["product_id", "order_id"]
+  end
+
+  private
+
+  def check_can_update
+    raise "Cannot update order" if order.completed?
   end
 end
