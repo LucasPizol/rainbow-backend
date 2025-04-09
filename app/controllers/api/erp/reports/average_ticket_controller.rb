@@ -7,9 +7,12 @@ class Api::Erp::Reports::AverageTicketController < Api::ApplicationController
                               .result
                               .joins("LEFT JOIN order_products ON order_products.product_id = products.id")
                               .joins("LEFT JOIN orders ON orders.id = order_products.order_id")
+                              .joins("LEFT JOIN order_request_items ON order_request_items.product_id = products.id")
                               .select("
                                 strftime('%m', orders.created_at) AS month,
-                                SUM(order_products.quantity * CAST(order_products.price AS REAL)) / NULLIF(SUM(order_products.quantity), 0) AS average
+                                SUM(order_products.quantity * CAST(order_products.price AS REAL)) / NULLIF(SUM(order_products.quantity), 0)
+                                + SUM(order_request_items.quantity * CAST(order_request_items.price AS REAL)) / NULLIF(SUM(order_request_items.quantity), 0)
+                                AS average
                               ")
                               .group('month')
 

@@ -40,95 +40,6 @@ textarea {
   }
 }
 
-header {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-.header-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1200px;
-  padding: 10px var(--padding);
-  width: 100%;
-}
-
-.header-logo {
-  width: 70px;
-  height: 100%;
-}
-
-.header-logo img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  border-radius: 50%;
-}
-
-.header-container nav {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
-
-.header-container nav a {
-  color: var(--primary-color);
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-.header-details {
-  width: 100%;
-  background-color: var(--primary-color-dark);
-  padding: 10px var(--padding);
-  color: #fff;
-  text-align: center;
-
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-}
-
-.header-details select {
-  padding: 5px;
-  border: none;
-  border-radius: 5px;
-  background-color: var(--primary-color-dark);
-  color: #fff;
-  cursor: pointer;
-  outline: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-.header-price {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-}
-
-.header-price input {
-  width: 150px;
-}
-
-.header-cart,
-.header-account {
-  width: 20px;
-  height: 20px;
-  color: var(--primary-color);
-}
-
 input {
   border: none;
   border: 1px solid var(--primary-color);
@@ -208,4 +119,21 @@ button.primary, input[type="submit"].primary {
 
 .w-100 {
   width: 100%;
+}
+
+.header-cart-count {
+  background-color: #f00;
+  color: #fff;
+  padding: 5px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 600;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 10px;
+  right: -5px;
 }

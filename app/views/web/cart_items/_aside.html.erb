@@ -1,0 +1,9 @@
+ <aside>
+  <h2>Resumo da compra</h2>
+
+  <% cart_total = current_client.cart_items.sum { |item| item.quantity * item.product.price } %>
+
+  <p>Total: <%= number_to_currency(cart_total, unit: "R$ ", separator: ",", delimiter: ".") %></p>
+
+  <%= yield %>
+</aside>

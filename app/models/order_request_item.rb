@@ -29,4 +29,20 @@ class OrderRequestItem < ApplicationRecord
   validates :quantity, presence: true
   validates :price, presence: true
   validates :discount, presence: true
+
+  after_save :update_product_stock
+
+  def total_price
+    price * quantity
+  end
+
+  private
+
+  def update_product_stock
+    product.stock_histories.create!(
+      quantity: quantity,
+      price: price,
+      operation: :exit
+    )
+  end
 end

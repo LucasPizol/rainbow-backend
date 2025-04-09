@@ -3,14 +3,14 @@
       Category.all,
       :id,
       :name,
-      { prompt: "Material", include_blank: true },
+      { prompt: "Material", disabled: true },
       { id: "category" } %>
 
   <%= f.collection_select :subcategories_id_in,
       Subcategory.all,
       :id,
       :name,
-      { prompt: "Furo", include_blank: true },
+      { prompt: "Furo" },
       { id: "subcategory" } %>
 
   <div class="header-price">

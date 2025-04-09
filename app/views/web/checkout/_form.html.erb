@@ -1,0 +1,108 @@
+<%= form_with(class: "checkout-form", id: "form-checkout") do |form| %>
+  <div class="checkout-form-field">
+    <%= form.label :email, "E-mail" %>
+    <%= form.email_field :email, id: "form-checkout__email", value: current_client.email %>
+  </div>
+  <div class="checkout-form-field">
+    <%= form.label :identification_type, "Tipo de documento" %>
+    <%= form.select :identification_type, [], {}, { id: "form-checkout__identificationType" } %>
+  </div>
+  <div class="checkout-form-field">
+    <%= form.label :identification_number, "Número do documento" %>
+    <%= form.text_field :identification_number, id: "form-checkout__identificationNumber", value: current_client.document %>
+  </div>
+  <div class="checkout-form-field issuer-field">
+    <%= form.label :issuer, "Bandeira" %>
+    <%= form.select :issuer, [], {}, { id: "form-checkout__issuer" } %>
+  </div>
+
+  <div class="checkout-form-field">
+    <%= form.label :card_number, "Número do cartão" %>
+    <%= form.text_field :card_number, id: "form-checkout__cardNumber" %>
+  </div>
+  <div class="checkout-form-field">
+    <%= form.label :cardholder_name, "Nome no cartão" %>
+    <%= form.text_field :cardholder_name, id: "form-checkout__cardholderName" %>
+  </div>
+  <div class="checkout-form-row">
+    <div class="checkout-form-field">
+      <%= form.label :expiration_date, "Validade (MM/AA)" %>
+      <%= form.text_field :expiration_date, id: "form-checkout__expirationDate" %>
+    </div>
+    <div class="checkout-form-field">
+      <%= form.label :security_code, "Código de segurança" %>
+      <%= form.text_field :security_code, id: "form-checkout__securityCode" %>
+    </div>
+  </div>
+
+  <div class="checkout-form-field">
+    <%= form.label :installments, "Parcelas" %>
+    <%= form.select :installments, @installments, {}, { id: "form-checkout__installments" } %>
+  </div>
+
+  <%= form.submit "Pagar", class: "primary" %>
+<% end %>
+
+<script src="https://sdk.mercadopago.com/js/v2"></script>
+<script>
+  const mp = new MercadoPago('TEST-b4d522cc-1958-46f0-b5e0-dfe74fa83ecd');
+
+  const cardForm = mp.cardForm({
+    amount: "<%= @cart_total %>",
+    autoMount: true,
+    form: {
+      id: "form-checkout",
+      cardNumber: { id: "form-checkout__cardNumber" },
+      expirationDate: { id: "form-checkout__expirationDate" },
+      securityCode: { id: "form-checkout__securityCode" },
+      cardholderName: { id: "form-checkout__cardholderName" },
+      identificationType: { id: "form-checkout__identificationType" },
+      identificationNumber: { id: "form-checkout__identificationNumber" },
+      issuer: { id: "form-checkout__issuer" },
+      installments: { id: "form-checkout__installments" },
+      email: { id: "form-checkout__email" }
+    },
+    callbacks: {
+      onFormMounted: (form) => {
+        console.log("Form mounted", form);
+      },
+      onSubmit: event => {
+        event.preventDefault();
+
+        const {
+          paymentMethodId,
+          issuerId,
+          cardholderEmail: email,
+          amount,
+          token,
+          installments,
+          identificationNumber,
+          identificationType
+        } = cardForm.getCardFormData();
+
+        fetch("/web/checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            token,
+            payment_method_id: paymentMethodId,
+            email,
+            doc_number: identificationNumber,
+            doc_type: identificationType,
+            installments: Number(installments),
+            payment_method: "credit_card",
+            address_id: "<%= @address.id %>"
+          })
+        }).then(async(data) => {
+          const response = await data.json();
+
+          if (response.success) {
+            window.location.href = response.redirect_url;
+          } else {
+            console.log(response);
+          }
+        })
+      }
+    }
+  });
+</script>

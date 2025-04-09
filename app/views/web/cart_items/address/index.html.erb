@@ -1,0 +1,13 @@
+<div class="cart-container">
+  <h1>Selecione o endereço de entrega</h1>
+
+  <%= form_tag web_checkout_index_path, method: :get, class: "cart-container-content" do %>
+    <div class="cart-items">
+      <%= render "web/cart_items/address/address" %>
+    </div>
+
+    <%= render "web/cart_items/aside" do %>
+      <%= submit_tag "Finalizar compra", class: "cart-item-checkout" %>
+    <% end %>
+  <% end %>
+</div>

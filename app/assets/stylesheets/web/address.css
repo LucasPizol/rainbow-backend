@@ -1,0 +1,44 @@
+.address {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.address-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.address-item input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  padding-top: 2px;
+}
+
+.address-details {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.address-details-street{
+  font-size: 14px;
+  font-weight: 400;
+  color: #4f4e4e;
+}
+
+.address-details-city {
+  font-size: 14px;
+  font-weight: 400;
+  color: #4f4e4e;
+}
+
+.address-details-zip-code {
+  font-size: 14px;
+  font-weight: 400;
+  color: #4f4e4e;
+}

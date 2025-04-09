@@ -1,0 +1,46 @@
+  <div class="cart-container">
+    <h1>Carrinho de compras</h1>
+
+    <div class="cart-container-content">
+      <div class="cart-items">
+        <% current_client.cart_items.each do |cart_item| %>
+          <div class="cart-item">
+            <%= image_tag cart_item.product.images.sample.url, class: "cart-item-image" %>
+
+            <div class="cart-item-info">
+              <%= cart_item.product.name %>
+
+              <div class="cart-item-price">
+                <%= number_to_currency(cart_item.product.price, unit: "R$ ", separator: ",", delimiter: ".") %>
+              </div>
+            </div>
+
+            <div class="cart-item-quantity-controls">
+              <%= form_with url: web_cart_item_path(cart_item), method: :put do |form| %>
+                <%= form.hidden_field :quantity, value: cart_item.quantity - 1 %>
+                <%= form.button "-", class: "cart-item-quantity-button" %>
+              <% end %>
+
+              <%= cart_item.quantity %>
+
+              <%= form_with url: web_cart_item_path(cart_item), method: :put do |form| %>
+                <%= form.hidden_field :quantity, value: cart_item.quantity + 1 %>
+                <%= form.button "+", class: "cart-item-quantity-button" %>
+              <% end %>
+            </div>
+
+            <%= form_with url: web_cart_item_path(cart_item), method: :delete do |form| %>
+              <%= button_tag type: "submit", class: "cart-item-remove" do %>
+                <%= icon("trash") %>
+              <% end %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
+      <%= render "web/cart_items/aside" do %>
+        <%= link_to "Finalizar compra", web_address_index_path, class: "cart-item-checkout" %>
+      <% end %>
+    </div>
+  </div>
+</div>

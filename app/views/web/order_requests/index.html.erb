@@ -1,0 +1,8 @@
+<div class="order-container">
+  <div class="container-content">
+    <h1>Seus pedidos</h1>
+    <% @order_requests.each do |order_request| %>
+      <%= render order_request %>
+    <% end %>
+  </div>
+</div>

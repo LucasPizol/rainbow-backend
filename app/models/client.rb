@@ -41,4 +41,8 @@ class Client < ApplicationRecord
   has_many :categories, through: :products
 
   validates :name, :phone, :document, presence: true
+
+  def total_cart_items
+    cart_items.sum(&:total_price)
+  end
 end

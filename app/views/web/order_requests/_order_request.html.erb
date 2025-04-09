@@ -1,0 +1,41 @@
+<div class="order" id="<%= dom_id order_request %>">
+
+  <div class="order-header">
+    <div class="order-info">
+      <div class="order-info-data">
+        <h2>Pedido <%= order_request.id %></h2>
+        <p><%= order_request.status %></p>
+      </div>
+      <p class="order-info-date">Pedido criado em <%= order_request.created_at.strftime("%d/%m/%Y") %></p>
+    </div>
+    <p class="order-info-address"><%= order_request.address.to_s %></p>
+  </div>
+
+  <div class="order_request-items">
+    <% order_request.order_request_items.each do |order_item| %>
+      <% product = order_item.product %>
+
+      <div class="order_request-item">
+        <div class="order_request-item-left">
+          <%= image_tag product.images.sample.url, class: "order_request-image" %>
+          <div class="order_request-item-info">
+            <h3><%= product.name %></h3>
+            <div class="order_request-item-description">
+              <p>Qtd <%= order_item.quantity %></p>
+              <p>Unt <%= number_to_currency(order_item.price, unit: "R$ ", separator: ",", delimiter: ".") %></p>
+            </div>
+          </div>
+        </div>
+        <p><%= number_to_currency(order_item.total_price, unit: "R$ ", separator: ",", delimiter: ".") %></p>
+      </div>
+    <% end %>
+    <% if order_request.products.empty? %>
+      <p>Nenhum produto encontrado.</p>
+    <% end %>
+  </div>
+
+  <div class="order_request-footer">
+    <p>Pago utilizando <%= order_request.payment_method %></p>
+    <p>Total: <%= number_to_currency(order_request.total_price, unit: "R$ ", separator: ",", delimiter: ".") %></p>
+  </div>
+</div>

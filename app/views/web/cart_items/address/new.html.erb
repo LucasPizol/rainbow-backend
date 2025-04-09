@@ -1,0 +1,15 @@
+<div class="address-form">
+  <%= form_with model: @address, url: web_address_index_path do |form| %>
+    <%= form.text_field :name, placeholder: "Nome" %>
+    <%= form.text_field :street, placeholder: "Endereço" %>
+    <%= form.text_field :city, placeholder: "Cidade" %>
+    <%= form.text_field :state, placeholder: "Estado" %>
+    <%= form.text_field :zip_code, placeholder: "CEP" %>
+    <%= form.text_field :neighborhood, placeholder: "Bairro" %>
+    <%= form.text_field :number, placeholder: "Número" %>
+    <%= form.text_field :complement, placeholder: "Complemento" %>
+    <%= form.text_field :reference, placeholder: "Referência" %>
+
+    <%= form.submit "Salvar" %>
+  <% end %>
+</div>

@@ -13,7 +13,7 @@ class Web::Clients::RegistrationsController < Web::ApplicationController
     @resource = Client.new(sign_up_params)
     @resource.save!
     @devise_mapping = Devise.mappings[:client]
-    redirect_to root_path
+    redirect_to root_url
   rescue => e
     flash[:alert] = e.message
     render :new, status: :unprocessable_entity
@@ -22,7 +22,7 @@ class Web::Clients::RegistrationsController < Web::ApplicationController
   protected
 
   def after_sign_up_path_for(resource)
-    root_path
+    root_url
   end
 
   def sign_up_params

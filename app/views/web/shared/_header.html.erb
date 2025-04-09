@@ -1,40 +1,48 @@
 <header>
   <div class="header-container">
     <div class="header-logo">
-      <%= image_tag "logo.webp", alt: "Logo" %>
+      <%= link_to root_path do %>
+        <%= image_tag "logo.webp", alt: "Logo" %>
+      <% end %>
     </div>
 
     <nav>
-      <%= link_to "Home", "/" %>
-      <%= link_to "About", "#" %>
-
-      <div class="header-cart">
-        <%= icon("shopping-cart") %>
-      </div>
-
       <%= search_form_for Product.ransack, url: search_path, class: "header-search" do |f| %>
         <%= f.search_field :name_cont, placeholder: "Buscar" %>
       <% end %>
 
+      <%= link_to web_cart_items_path, class: "header-cart" do %>
+        <%= icon("shopping-cart") %>
+
+        <% cart_items_count = current_client&.cart_items&.count %>
+
+        <% if cart_items_count&.positive? %>
+          <span class="header-cart-count">
+            <%= cart_items_count %>
+          </span>
+        <% end %>
+      <% end %>
+
+
       <div class="header-account">
         <% if current_client %>
           <div class="dropdown">
-            <button class="dropdown-toggle">
-              <%= current_client.name %>
+            <span class="dropdown-toggle">
               <%= icon("user") %>
-            </button>
+              <%= current_client.name&.split&.first %>
+            </span>
             <div class="dropdown-menu">
               <%= link_to "Minha conta", "#" %>
-              <%= link_to "Meus pedidos", "#" %>
+              <%= link_to "Meus pedidos", web_order_requests_path %>
               <%= link_to "Sair", destroy_client_session_path, method: :delete, data: { turbo_method: :delete } %>
             </div>
           </div>
         <% else %>
           <div class="dropdown">
-            <button class="dropdown-toggle">
+            <span class="dropdown-toggle">
               Entrar
               <%= icon("user") %>
-            </button>
+            </span>
             <div class="dropdown-menu">
               <%= link_to "Login", new_client_session_path %>
               <%= link_to "Cadastrar", new_client_registration_path %>

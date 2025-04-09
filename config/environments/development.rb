@@ -39,7 +39,7 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
   # Set localhost to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
+  config.action_mailer.default_url_options = { host: 'localhost', port: 8080 }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -64,6 +64,7 @@ Rails.application.configure do
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
+  config.hosts << "localhost"
 
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
@@ -72,5 +73,5 @@ Rails.application.configure do
   # config.generators.apply_rubocop_autocorrect_after_generate!
 end
 
-Rails.application.routes.default_url_options[:host] = "localhost"
-Rails.application.routes.default_url_options[:port] = 3000
+Rails.application.routes.default_url_options[:host] = ENV.fetch("APP_HOST", "localhost")
+Rails.application.routes.default_url_options[:port] = ENV.fetch("APP_PORT", 8080)

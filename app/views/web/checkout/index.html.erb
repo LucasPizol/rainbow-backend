@@ -1,0 +1,32 @@
+  <div class="cart-container">
+    <h1>Carrinho de compras</h1>
+
+    <div class="cart-container-content">
+      <aside class="checkout-aside">
+        <% @cart_items.each do |cart_item| %>
+          <div class="checkout-aside-item">
+            <%= image_tag cart_item.product.images.sample.url, class: "checkout-aside-content-image" %>
+
+            <div class="checkout-aside-item-content">
+              <span class="checkout-aside-item-content-name">
+                <%= cart_item.product.name %>
+              </span>
+
+              <span class="checkout-aside-item-content-quantity">
+                Quantidade: <%= cart_item.quantity %>
+              </span>
+            </div>
+
+            <div class="checkout-aside-item-price">
+              <%= number_to_currency(cart_item.product.price, unit: "R$ ", separator: ",", delimiter: ".") %>
+            </div>
+          </div>
+        <% end %>
+      </aside>
+
+      <div class="checkout-form-container">
+        <%= render "web/checkout/form" %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -55,7 +55,20 @@ Rails.application.routes.draw do
   end
 
   namespace :web do
-    resources :cart_items, only: [:create]
+    resources :cart_items, only: [:create, :index, :destroy, :update] do
+      collection do
+        resources :address, only: [:index, :new, :create], module: :cart_items
+      end
+    end
+
+    resources :checkout, only: [:index, :create] do
+      collection do
+        resources :success, only: :index, module: :checkout
+        resources :error, only: :index, module: :checkout
+      end
+    end
+
+    resources :order_requests, only: [:index]
   end
 
   get "up" => "rails/health#show", as: :rails_health_check

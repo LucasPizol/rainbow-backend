@@ -1,0 +1,16 @@
+<div class="address">
+  <% current_client.addresses.each do |address| %>
+    <div class="address-item">
+      <%= radio_button_tag 'address_id', address.id %>
+      <div class="address-details">
+        <strong><%= address.name %></strong>
+
+        <p class="address-details-street"><%= address.street %>, <%= address.number %> - <%= address.neighborhood %></p>
+        <p class="address-details-city"><%= address.city %> / <%= address.state %></p>
+        <p class="address-details-zip-code">CEP: <%= address.zip_code %></p>
+      </div>
+    </div>
+  <% end %>
+
+  <%= link_to "Adicionar novo endereço", new_web_address_path(redirect_url: web_address_index_url), class: "add-address-button" %>
+</div>

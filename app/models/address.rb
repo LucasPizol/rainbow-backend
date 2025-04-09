@@ -33,4 +33,8 @@ class Address < ApplicationRecord
   validates :street, :number, :neighborhood, :city, :state, :zip_code, presence: true
 
   has_many :order_requests, dependent: :destroy
+
+  def to_s
+    "#{street}, #{number} - #{neighborhood} - #{city} - #{state} - #{zip_code}"
+  end
 end
