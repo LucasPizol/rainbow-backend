@@ -61,4 +61,4 @@ group :test do
   gem 'shoulda-matchers'
 end
 
-gem "rails_icons", "~> 1.2"
+gem "rails_icons", "~> 1.3"
